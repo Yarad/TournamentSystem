@@ -1,11 +1,16 @@
 ﻿<Application x:Class="WpfTournament.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="cwMainWindow.xaml">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             StartupUri="cwMainWindow.xaml"
+             >
     <Application.Resources>
+        <sys:Double x:Key="DefaultWindowHeight">570</sys:Double>
+        <sys:Double x:Key="DefaultWindowWidth">980</sys:Double>
+        
         <Style x:Key="AllWindows" TargetType="Window">
-            <Setter Property="Window.Height" Value="570" />
-            <Setter Property="Window.Width" Value="980" />
+            <Setter Property="Window.Height" Value="{StaticResource DefaultWindowHeight}" />
+            <Setter Property="Window.Width" Value="{StaticResource DefaultWindowWidth}" />
             <Setter Property="Window.Padding" Value="10,0"/>
         </Style>
     </Application.Resources>

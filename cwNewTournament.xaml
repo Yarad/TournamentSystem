@@ -8,7 +8,25 @@
         <ImageBrush ImageSource="Images/Res/TwoPanels.jpg"/>
     </Window.Background>
 
-    <Grid>
-        
-    </Grid>
+    <Window.Resources>
+        <Style x:Key="ContentPanels" TargetType="Grid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Width" Value="385"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="0,34,0,83" Width="{StaticResource DefaultWindowWidth}">
+        <Grid Style="{StaticResource ContentPanels}" Margin="30 0 30 0" DockPanel.Dock="Left" HorizontalAlignment="Left">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="30" Color="#FF959595" ShadowDepth="20" Opacity="0.7"/>
+            </Grid.Effect>
+        </Grid>
+
+        <Grid Style="{StaticResource ContentPanels}" Margin="30 0 30 0" DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="30" Color="#FF959595" ShadowDepth="20" Opacity="0.7"/>
+            </Grid.Effect>
+        </Grid>
+    </DockPanel>
 </Window>
