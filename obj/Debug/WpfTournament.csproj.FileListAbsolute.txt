@@ -1,0 +1,15 @@
+D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\WpfTournament.exe
+D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\WpfTournament.pdb
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\MainWindow.baml
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\MainWindow.g.cs
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\App.g.cs
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament_MarkupCompile.cache
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament.g.resources
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament.Properties.Resources.resources
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament.csproj.GenerateResource.Cache
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament.exe
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament.pdb
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\App.baml
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\WpfTournament.csprojResolveAssemblyReference.cache
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwNewTournament.baml
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwNewTournament.g.cs
