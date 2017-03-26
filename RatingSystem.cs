@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Tournament_System
+namespace WpfTournament
 {
     public delegate int SortByRatingDel(string Raiting1, string Raiting2);
 

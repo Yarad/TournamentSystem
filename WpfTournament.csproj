@@ -54,7 +54,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="RatingSystem.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="cwMainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -64,8 +64,8 @@
     </Compile>
     <Compile Include="DatabaseClasses.cs" />
     <Compile Include="GlobalConstansts.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="cwMainWindow.xaml.cs">
+      <DependentUpon>cwMainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="cwNewTournament.xaml">
@@ -124,7 +124,6 @@
     <Resource Include="Images\Res\MainMenu.jpg" />
     <Resource Include="Images\Res\temp4.ico" />
     <Resource Include="Images\Res\temp5.ico" />
-    <Resource Include="Images\Res\две панельки.jpg" />
     <Resource Include="Images\Res\для инфы посередине.jpg" />
     <Resource Include="Images\Res\меню без панельки.jpg" />
     <Resource Include="Images\Res\пустая.jpg" />
@@ -139,6 +138,9 @@
     <Resource Include="Images\фон3.jpg" />
     <Resource Include="Images\фон4.jpg" />
     <Resource Include="Images\фон5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Res\TwoPanels.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

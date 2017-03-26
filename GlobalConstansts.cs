@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using System.Windows;
 
-namespace Tournament_System
+namespace WpfTournament
 {
     static class GlobalConstansts
     {
-        public static List<string> ExistedGames = new List<string>() {"Шахматы", "Го", "Другое"};
+        public static List<string> ExistedGames = new List<string>() { "Шахматы", "Го", "Другое" };
         public static Dictionary<string, SortByRatingDel> GamesRatingCompareFunctions = new Dictionary<string, SortByRatingDel>
         {
             {"Chess",GlobalFunctions.ChessRatingCompare},
@@ -29,7 +29,7 @@ namespace Tournament_System
                 else
                     return 0;
         }
-        
+
         //для каждого из методов нужно обеспечить правильный формат строки
         //проверку делать очень неудобно
         public static int ChessRatingCompare(string Raiting1, string Raiting2)
@@ -79,27 +79,12 @@ namespace Tournament_System
             }
 
         }
-
-        public static void ModifyFormAsAll(Form CurrForm)
+        
+        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin)
         {
-            CurrForm.Height = 570;
-            CurrForm.Width = 960;
-            double Ratio = 960 / 570;
-
-            if (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width < CurrForm.Width)
-            {
-                CurrForm.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
-                CurrForm.Height = (int)Math.Round(CurrForm.Width / Ratio);
-            }
-
-            if (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height < CurrForm.Height)
-            {
-                CurrForm.Height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-                CurrForm.Width = (int)Math.Round(CurrForm.Height * Ratio);
-            }
-
-            CurrForm.FormBorderStyle = FormBorderStyle.FixedDialog;
-            CurrForm.StartPosition = FormStartPosition.CenterScreen;
+            (sender as Window).Left = LeftMargin;
+            (sender as Window).Top = TopMargin;
+            (sender as Window).Show();
         }
     }
 }

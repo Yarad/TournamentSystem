@@ -18,17 +18,20 @@ namespace WpfTournament
     /// </summary>
     public partial class cwNewTournament : Window
     {
-        /*Конструктор будет недоступен при неуказанном положении окна
-         * public cwNewTournament()
+        public cwNewTournament()
         {
             InitializeComponent();
-        }*/ 
-        
+        }
         public cwNewTournament(double LeftMargin, double TopMargin)
         {
             InitializeComponent();
             this.Left = LeftMargin;
             this.Top = TopMargin;
+        }
+
+        private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GlobalFunctions.ShowWindowAtLoc(cwMainWindow.wMainWindow, this.Left,this.Top);
         }
 
     }

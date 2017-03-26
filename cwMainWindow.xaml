@@ -1,0 +1,44 @@
+﻿<Window x:Class="WpfTournament.cwMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow"
+        Style="{StaticResource AllWindows}">
+    <Window.Resources>
+        <Style x:Key="MenuButtons">
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="TextBlock.Margin" Value="0 0 0 0" />
+            <Setter Property="TextBlock.FontFamily" Value="Enchanted Land cyr-lat" />
+            <Setter Property="TextBlock.Foreground" Value="Maroon" />
+            <Setter Property="TextBlock.FontSize" Value="45" />
+            
+            <EventSetter Event="TextBlock.MouseEnter" Handler="OnLabelMouseEnter" />
+            <EventSetter Event="TextBlock.MouseLeave" Handler="OnLabelMouseLeave" />
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="Images/Res/MainMenu.jpg"/>
+    </Window.Background>
+
+    <StackPanel Margin="342,83,342,108">
+
+        <TextBlock Name="btnNewTornament" Style="{StaticResource MenuButtons}" MouseDown="OnNewTournamentClick">
+            Новый турнир
+        </TextBlock>
+        <TextBlock Name="btnOpenFile" Style="{StaticResource MenuButtons}">
+            Открыть файл
+        </TextBlock>
+        <TextBlock Name="btnDatabase" Style="{StaticResource MenuButtons}">
+            База данных
+        </TextBlock>
+        <TextBlock Name="btnOptions" Style="{StaticResource MenuButtons}">
+            Настройки
+        </TextBlock>
+        <TextBlock Name="btnAbout" Style="{StaticResource MenuButtons}">
+            Справка
+        </TextBlock>
+        <TextBlock Name="btnExit" Style="{StaticResource MenuButtons}">
+            Выход
+        </TextBlock>
+    </StackPanel>
+
+</Window>

@@ -8,39 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/137453099.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/137601095.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/181487628.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/83666189.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/93894851.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/97c462de2ddf4c1bc1d97d17100b2.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/background.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/can-stock-photo_csp14433049.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/depositphotos_24338337-medieval-knight-horseman-silhouettes-riding-in-batt" +
-    "le-field-warf.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/depositphotos_6745406-stock-illustration-medieval-knight-horseman-and-vint" +
-    "age.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/knight.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/mainmenu.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/temp4.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/temp5.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/%d0%b4%d0%b2%d0%b5%20%d0%bf%d0%b0%d0%bd%d0%b5%d0%bb%d1%8c%d0%ba%d0%b8." +
-    "jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/%d0%b4%d0%bb%d1%8f%20%d0%b8%d0%bd%d1%84%d1%8b%20%d0%bf%d0%be%d1%81%d0%" +
-    "b5%d1%80%d0%b5%d0%b4%d0%b8%d0%bd%d0%b5.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/%d0%bc%d0%b5%d0%bd%d1%8e%20%d0%b1%d0%b5%d0%b7%20%d0%bf%d0%b0%d0%bd%d0%" +
-    "b5%d0%bb%d1%8c%d0%ba%d0%b8.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/%d0%bf%d1%83%d1%81%d1%82%d0%b0%d1%8f.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/temp.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/temp2.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/temp3.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/temp4.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/temp5.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/woods-e1455649507324.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/%d0%b8%d1%81%d1%85%d0%be%d0%b4%d0%bd%d0%b0%d1%8f.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/%d1%84%d0%be%d0%bd.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/%d1%84%d0%be%d0%bd3.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/%d1%84%d0%be%d0%bd4.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/%d1%84%d0%be%d0%bd5.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/twopanels.jpg")]
 
 
