@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using Newtonsoft.Json;
+//using System.Text;
+
 
 namespace WpfTournament
 {
     public delegate int SortByRatingDel(string Raiting1, string Raiting2);
 
-    class Game
+    [JsonObject]
+    class cGame
     {
         public string Name;
-        public List<Player> PlayersOfGame;
+        
+        [JsonIgnore]
+        private List<Player> PlayersOfGame; //подгрузится отдельно
         private SortByRatingDel RatingCompareFunction;
 
-        public Game(string Name,SortByRatingDel RatingCompareFunction)
+        public cGame(string Name,SortByRatingDel RatingCompareFunction)
         {
             this.RatingCompareFunction = RatingCompareFunction;
             this.Name = Name;
@@ -69,6 +76,15 @@ namespace WpfTournament
             }
 
         }
-    }
 
+        //временно. нужно перенести в админку
+        public void SaveToFile(string FileName)
+        {
+            using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
+            {
+                byte[] CurrGameInJSON = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
+                fs.Write(CurrGameInJSON,0,CurrGameInJSON.Length);
+            }
+        }
+    }
 }

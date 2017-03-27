@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/twopanels.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("newtonsoft.json.dll")]
 
 

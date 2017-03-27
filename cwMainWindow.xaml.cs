@@ -42,7 +42,7 @@ namespace WpfTournament
         {
             
             wNewTournament = new cwNewTournament();
-            GlobalFunctions.ShowWindowAtLoc(wNewTournament, this.Left, this.Top);
+            GlobalFunctions.ShowWindowAtLoc(wNewTournament, this.Left, this.Top, this.Width,this.Height);
             this.Hide();
         }
     }

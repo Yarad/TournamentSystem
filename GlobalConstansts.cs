@@ -80,10 +80,12 @@ namespace WpfTournament
 
         }
         
-        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin)
+        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin, double Width, double Height)
         {
             (sender as Window).Left = LeftMargin;
             (sender as Window).Top = TopMargin;
+            (sender as Window).Width = Width;
+            (sender as Window).Height = Height;
             (sender as Window).Show();
         }
     }

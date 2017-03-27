@@ -21,6 +21,8 @@ namespace WpfTournament
         public cwNewTournament()
         {
             InitializeComponent();
+            cGame GoGame = new cGame("Go", GlobalFunctions.GoRatingCompare);
+            GoGame.SaveToFile("temp.txt");
         }
         public cwNewTournament(double LeftMargin, double TopMargin)
         {
@@ -31,7 +33,7 @@ namespace WpfTournament
 
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            GlobalFunctions.ShowWindowAtLoc(cwMainWindow.wMainWindow, this.Left,this.Top);
+            GlobalFunctions.ShowWindowAtLoc(cwMainWindow.wMainWindow, this.Left,this.Top, this.Width,this.Height);
         }
 
     }
