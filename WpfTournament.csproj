@@ -34,13 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GoRatingCompare">
+      <HintPath>..\..\Libraries\GoRatingCompare\GoRatingCompare\bin\Debug\GoRatingCompare.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>.\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -129,7 +131,6 @@
     <Resource Include="Images\Res\temp5.ico" />
     <Resource Include="Images\Res\для инфы посередине.jpg" />
     <Resource Include="Images\Res\меню без панельки.jpg" />
-    <Resource Include="Images\Res\пустая.jpg" />
     <Resource Include="Images\temp.png" />
     <Resource Include="Images\temp2.png" />
     <Resource Include="Images\temp3.jpg" />
@@ -152,6 +153,15 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Res\NewTournament.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Res\empty.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Res\sword.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

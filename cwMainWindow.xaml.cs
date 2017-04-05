@@ -22,11 +22,11 @@ namespace WpfTournament
 
         private cwNewTournament wNewTournament;
 
-        public static cwMainWindow wMainWindow = null;
+        //public static cwMainWindow wMainWindow = null;
         public cwMainWindow()
         {
             InitializeComponent();
-            wMainWindow = this;
+            //wMainWindow = this;
         }
 
         public void OnLabelMouseEnter(object sender, EventArgs e)
@@ -40,10 +40,14 @@ namespace WpfTournament
 
         public void OnNewTournamentClick(object sender, EventArgs e)
         {
-            
             wNewTournament = new cwNewTournament();
-            GlobalFunctions.ShowWindowAtLoc(wNewTournament, this.Left, this.Top, this.Width,this.Height);
+            GlobalFunctions.ShowWindowAtLoc(wNewTournament, this.Left, this.Top, this.Width,this.Height,this.WindowState);
             this.Hide();
+        }
+
+        private void btnOpenFile_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Maximized;
         }
     }
 }

@@ -19,26 +19,37 @@
         <ImageBrush ImageSource="Images/Res/MainMenu.jpg"/>
     </Window.Background>
 
-    <StackPanel Margin="342,83,342,108">
-
-        <TextBlock Name="btnNewTornament" Style="{StaticResource MenuButtons}" MouseDown="OnNewTournamentClick">
+    <Grid Margin="342,50,342,114">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        
+        <TextBlock Grid.Row="1" Name="btnNewTornament" Style="{StaticResource MenuButtons}" MouseDown="OnNewTournamentClick">
             Новый турнир
         </TextBlock>
-        <TextBlock Name="btnOpenFile" Style="{StaticResource MenuButtons}">
+        <TextBlock Grid.Row="2" Name="btnOpenFile" Style="{StaticResource MenuButtons}" MouseDown="btnOpenFile_MouseDown">
             Открыть файл
         </TextBlock>
-        <TextBlock Name="btnDatabase" Style="{StaticResource MenuButtons}">
+        <TextBlock Grid.Row="3" Name="btnDatabase" Style="{StaticResource MenuButtons}">
             База данных
         </TextBlock>
-        <TextBlock Name="btnOptions" Style="{StaticResource MenuButtons}">
+        <TextBlock Grid.Row="4" Name="btnOptions" Style="{StaticResource MenuButtons}">
             Настройки
         </TextBlock>
-        <TextBlock Name="btnAbout" Style="{StaticResource MenuButtons}">
+        <TextBlock Grid.Row="5" Name="btnAbout" Style="{StaticResource MenuButtons}">
             Справка
         </TextBlock>
-        <TextBlock Name="btnExit" Style="{StaticResource MenuButtons}">
+        <TextBlock Grid.Row="6" Name="btnExit" Style="{StaticResource MenuButtons}">
             Выход
         </TextBlock>
-    </StackPanel>
+    </Grid>
 
 </Window>

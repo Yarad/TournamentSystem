@@ -5,7 +5,7 @@
         Style="{StaticResource AllWindows}"
         Closing="OnWindowClosing">
     <Window.Background>
-        <ImageBrush ImageSource="Images/Res/TwoPanels.jpg"/>
+        <ImageBrush ImageSource="Images/Res/empty.jpg"/>
     </Window.Background>
 
     <Window.Resources>
@@ -13,41 +13,38 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
         </Style>
+
     </Window.Resources>
 
     <Grid Margin="30,34,30,83">
         <!--Просто задает разметку-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="233"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <Grid Style="{StaticResource ContentPanels}" Grid.Column="0" Grid.Row="0" Margin="0" Background="White">
+
+        <Grid Style="{StaticResource ContentPanels}" Grid.Column="0" Grid.Row="0" Background="White">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="30" Color="#FF959595" ShadowDepth="20" Opacity="0.7"/>
             </Grid.Effect>
-            <ComboBox HorizontalAlignment="Left" Margin="30,50,30,0" VerticalAlignment="Top" Width="288" Height="34" BorderBrush="White" OpacityMask="#FF8B4C4C" FontFamily="Enchanted Land cyr-lat" FontSize="14">
-                <ComboBox.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFF5BE71" Offset="0.413"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </LinearGradientBrush>
-                </ComboBox.Background>
-            </ComboBox>
+            <ComboBox x:Name="ComboBoxGamesList" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top" Width="170" Height="43" BorderBrush="Black" OpacityMask="#FFFFC5C5" FontFamily="Book Antiqua" FontSize="14" SelectionChanged="ComboBoxGamesList_Selected_1" Background="#FF9DC5FF" Foreground="Black"/>
+            <Button Name="ButtonFormList" Content="Выбрать участников" HorizontalAlignment="Center" VerticalAlignment="Top" Width="170" Height="49" Margin="30,123,33,0" Background="#FF9DC5FF" FontFamily="Book Antiqua" FontSize="15"/>
         </Grid>
-        
-        <Grid Grid.Column="1" Grid.Row="0">
 
+        <Grid Grid.Row="0" Grid.Column ="1" Margin="10 0 10 0">
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/Res/sword.png"/>
+            </Grid.Background>
         </Grid>
-        
+
         <Grid Style="{StaticResource ContentPanels}" Grid.Column="2" Grid.Row="0">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="30" Color="#FF959595" ShadowDepth="20" Opacity="0.7"/>
             </Grid.Effect>
-            <WebBrowser Name="InfoAbout" OpacityMask="White"/>
+            <WebBrowser x:Name="WebBrowserGameInfo" OpacityMask="White"/>
         </Grid>
-        
+
     </Grid>
 
 </Window>

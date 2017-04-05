@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using GamesFunctions;
 
 namespace WpfTournament
 {
     static class GlobalConstansts
     {
-        public static List<string> ExistedGames = new List<string>() { "Шахматы", "Го", "Другое" };
-        public static Dictionary<string, SortByRatingDel> GamesRatingCompareFunctions = new Dictionary<string, SortByRatingDel>
-        {
-            {"Chess",GlobalFunctions.ChessRatingCompare},
-            {"Go",GlobalFunctions.GoRatingCompare}
-        };
+        public static string FOLDER_WITH_GAMES_NAME = "ExistedGames";
+        public static string FOLDER_WITH_IMAGES_IN_GAMEINFO = "images";
+        //public static string MAIN_GAME_IMAGE_NAME = "main";
+        public static string GAME_MAIN_PAGE_NAME = "index.html";
+        public static string PAGE_DEFAULT_NAME = "default.html";
+        public static string PLAYERS_LIST_FILE_NAME = "players.txt";
+    }
+
+    static class GlobalInfoMessages
+    {
+        public static string CHOOSE_GAME = "Выберите игру";
     }
 
     static class GlobalFunctions
@@ -79,13 +85,14 @@ namespace WpfTournament
             }
 
         }
-        
-        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin, double Width, double Height)
+
+        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin, double Width, double Height, WindowState PrevWindowState)
         {
             (sender as Window).Left = LeftMargin;
             (sender as Window).Top = TopMargin;
             (sender as Window).Width = Width;
             (sender as Window).Height = Height;
+            (sender as Window).WindowState = PrevWindowState;
             (sender as Window).Show();
         }
     }
