@@ -28,8 +28,8 @@
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="30" Color="#FF959595" ShadowDepth="20" Opacity="0.7"/>
             </Grid.Effect>
-            <ComboBox x:Name="ComboBoxGamesList" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top" Width="170" Height="43" BorderBrush="Black" OpacityMask="#FFFFC5C5" FontFamily="Book Antiqua" FontSize="14" SelectionChanged="ComboBoxGamesList_Selected_1" Background="#FF9DC5FF" Foreground="Black"/>
-            <Button Name="ButtonFormList" Content="Выбрать участников" HorizontalAlignment="Center" VerticalAlignment="Top" Width="170" Height="49" Margin="30,123,33,0" Background="#FF9DC5FF" FontFamily="Book Antiqua" FontSize="15"/>
+            <ComboBox x:Name="ComboBoxGamesList" HorizontalAlignment="Left" Margin="30,50,0,0" VerticalAlignment="Top" Width="170" Height="43" BorderBrush="Black" OpacityMask="#FFFFC5C5" FontFamily="Book Antiqua" FontSize="20" SelectionChanged="ComboBoxGamesList_Selected_1" Background="#FF9DC5FF" Foreground="Black" IsReadOnly="True" IsTabStop="True" IsEditable="True"/>
+            <Button Name="btnFormList" Content="Выбрать участников" HorizontalAlignment="Center" VerticalAlignment="Top" Width="170" Height="49" Margin="30,123,33,0" Background="#FF9DC5FF" FontFamily="Book Antiqua" FontSize="15" Click="btnFormList_Click"/>
         </Grid>
 
         <Grid Grid.Row="0" Grid.Column ="1" Margin="10 0 10 0">
@@ -42,7 +42,15 @@
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="30" Color="#FF959595" ShadowDepth="20" Opacity="0.7"/>
             </Grid.Effect>
-            <WebBrowser x:Name="WebBrowserGameInfo" OpacityMask="White"/>
+            <TabControl Margin="0 -24 0 0">
+                <TabItem Name="TabItemGame1" Header="Игра" FontFamily="Book Antiqua" FontSize="14">
+                    <WebBrowser x:Name="WebBrowserGameInfo" OpacityMask="White"/>
+                </TabItem>
+                <TabItem Name="TabItemPlayers2" Header="Участники" FontFamily="Book Antiqua" FontSize="14">
+                    
+                </TabItem>
+            </TabControl>
+            
         </Grid>
 
     </Grid>

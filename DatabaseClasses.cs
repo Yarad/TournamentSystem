@@ -25,7 +25,6 @@ namespace WpfTournament
 
     class cGamesInfoLoader
     {
-        public string DefaultPageHTML;
         public List<cGameShowInfo> ExistedGames;
 
         public cGamesInfoLoader()
@@ -49,7 +48,6 @@ namespace WpfTournament
                                 ));
                 //полностью заполняет инфу об игре для вывода в список
             }
-            DefaultPageHTML = File.ReadAllText(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GlobalConstansts.PAGE_DEFAULT_NAME, Encoding.UTF8);
         }
 
         //возвращает список игроков по имени игры
@@ -59,6 +57,7 @@ namespace WpfTournament
             return (List<cPlayer>)JsonConvert.DeserializeObject(temp);
         }
 
+        //созраняет список игроков по имени игры
         public void SaveListOfPlayersByGameName(string GameName, List<cPlayer> PlayersList)
         {
             using (FileStream fs = new FileStream(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, FileMode.OpenOrCreate))
