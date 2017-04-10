@@ -7,11 +7,37 @@
     <Application.Resources>
         <sys:Double x:Key="DefaultWindowHeight">570</sys:Double>
         <sys:Double x:Key="DefaultWindowWidth">980</sys:Double>
-        
+
         <Style x:Key="AllWindows" TargetType="Window">
             <Setter Property="Window.Height" Value="{StaticResource DefaultWindowHeight}" />
             <Setter Property="Window.Width" Value="{StaticResource DefaultWindowWidth}" />
             <Setter Property="Window.Padding" Value="10,0"/>
+        </Style>
+
+        <Style x:Key="TournamentComboBox" TargetType="ComboBox">
+            <Style.Setters>
+                <Setter Property="Control.HorizontalAlignment" Value="Left"/>
+                <Setter Property="Control.VerticalAlignment" Value="Top"/>
+                <Setter Property="Control.Margin" Value="30,50,0,0"/>
+                <Setter Property="Control.Width" Value="170"/>
+                <Setter Property="Control.Height" Value="43"/>
+                <Setter Property="Control.BorderBrush" Value="Black"/>
+                <Setter Property="Control.OpacityMask" Value="#FFFFC5C5"/>
+                <Setter Property="Control.FontFamily" Value="Book Antiqua"/>
+                <Setter Property="Control.FontSize" Value="20"/>
+                <Setter Property="Control.Background" Value="#FF9DC5FF"/>
+                <Setter Property="Control.Foreground" Value="Black"/>
+                <Setter Property="ComboBox.IsReadOnly" Value="True"/>
+                <Setter Property="Control.IsTabStop" Value="True"/>
+                <Setter Property="ComboBox.IsEditable" Value="True"/>
+            </Style.Setters>
+            <Style.Triggers>
+                
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="NewTournamentButtons">
+            
         </Style>
     </Application.Resources>
 </Application>

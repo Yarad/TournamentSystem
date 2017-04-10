@@ -26,8 +26,8 @@ namespace WpfTournament
         {
             InitializeComponent();
             GamesInfoLoader = new cGamesInfoLoader();
-            FillGamesPreInfo();
             ChoosedGame = new cGame();
+            FillGamesPreInfo();
         }
         public cwNewTournament(double LeftMargin, double TopMargin)
         {
@@ -47,18 +47,36 @@ namespace WpfTournament
         {
             GlobalFunctions.ShowWindowAtLoc(/*cwMainWindow.wMainWindow*/App.Current.MainWindow, this.Left, this.Top, this.Width, this.Height, this.WindowState);
         }
-
         private void btnFormList_Click(object sender, RoutedEventArgs e)
         {
             TabItemPlayers2.Visibility = Visibility.Visible;
             TabItemPlayers2.IsSelected = true;
+            GamesInfoLoader.FillGameObjByGameShowInfoObj(ChoosedGame, (cGameShowInfo)ComboBoxGamesList.SelectedValue);
+        }
+        private void btnAddPlayersFromLocalDB_Click(object sender, RoutedEventArgs e)
+        {
+            //не написано
         }
 
-        //функция для заполнения ... должна быть не здесь
-        /*private void FillGameObjByGameShowInfoObj(cGameShowInfo GameShowInfiObj)
+        private void btnAddPlayersFromInput_Click(object sender, RoutedEventArgs e)
         {
-            ChoosedGame.Name = GameShowInfiObj.ShowingName;
-        }*/
+            var TempList = new cListOfPlayers();
+            var TempPlayer = new cPlayer();
+            TempPlayer.Name = "Андрей";
+            TempPlayer.Surname = "Жлобич";
+            TempPlayer.Rating = "10k";
+            TempList.AddPlayer(TempPlayer);
+
+            var TempPlayer2 = new cPlayer();
+            TempPlayer2.Name = "Андрей";
+            TempPlayer2.Surname = "Алобич";
+            TempPlayer2.Rating = "10k";
+            TempList.AddPlayer(TempPlayer2);
+
+            grdFinalListOfPlayers.Children.Add(TempList);
+        }
+
+
         private void FillGamesPreInfo()
         {
             ResetAllControls();
@@ -92,5 +110,6 @@ namespace WpfTournament
             else
                 WebBrowserGameInfo.NavigateToString(Default);
         }
+
     }
 }

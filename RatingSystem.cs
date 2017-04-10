@@ -9,56 +9,67 @@ using Newtonsoft.Json;
 
 namespace WpfTournament
 {
-    public delegate int SortByRatingDel(string Raiting1, string Raiting2);
-
+    public delegate int RatingCompareDelegate(string Raiting1, string Raiting2);
     [JsonObject]
-    public class cGame //управляет абсолютно всей информацией, необходимой для дальнейшего проведения турнира
+    public class cGame:IComparer<string> //управляет абсолютно всей информацией, необходимой для дальнейшего проведения турнира
     {
         [JsonIgnore]
         public string Name;
         private List<cPlayer> PlayersOfGame; //подгрузится отдельно
-        private SortByRatingDel RatingCompareFunction;
+        public RatingCompareDelegate RatingCompareFunction;
+        int IComparer<string>.Compare(string x, string y)
+        {
+            return RatingCompareFunction(x,y);
+        }
 
         public cGame()
         {
             PlayersOfGame = new List<cPlayer>();
+            //используем как стандартное значение
+            RatingCompareFunction = GlobalFunctions.ChessRatingCompare;
         }
 
-        public cGame(string Name, SortByRatingDel RatingCompareFunction)
+        public cGame(string Name)
         {
-            this.RatingCompareFunction = RatingCompareFunction;
             this.Name = Name;
-
             PlayersOfGame = new List<cPlayer>();
         }
 
-        public void SortByName()
+        public void SortPlayersByName(int Direction)
         {
-            PlayersOfGame.Sort(
-                delegate(cPlayer p1, cPlayer p2)
-                {
-                    return String.Compare(p1.Surname, p2.Surname);
-                }
+            if (Direction == GlobalConstansts.DirectionUp)
+                PlayersOfGame.Sort(
+                    delegate(cPlayer p1, cPlayer p2){ return String.Compare(p1.Surname, p2.Surname);}
+                );
+            else
+                PlayersOfGame.Sort(
+                delegate(cPlayer p1, cPlayer p2){return String.Compare(p2.Surname, p1.Surname);}
             );
         }
-        public void SortByAge()
+        public void SortPlayersByAge(int Direction)
         {
             PlayersOfGame.Sort(delegate(cPlayer p1, cPlayer p2)
             {
-                if (p1.Age > p2.Age)
+                if (p1.Age*Direction > p2.Age*Direction)
                     return 1;
-                else if (p1.Age < p2.Age)
+                else if (p1.Age*Direction < p2.Age*Direction)
                     return -1;
                 else
                     return 0;
             });
         }
-        public void SortByLevel()
+        public void SortPlayersByLevel(int Direction)
         {
-            PlayersOfGame.Sort(delegate(cPlayer p1, cPlayer p2) { return this.RatingCompareFunction(p1.Rating, p2.Rating); });
+            PlayersOfGame.Sort(delegate(cPlayer p1, cPlayer p2) {
+                if(Direction==GlobalConstansts.DirectionUp)
+                    return this.RatingCompareFunction(p1.Rating, p2.Rating);
+                else
+                    return this.RatingCompareFunction(p2.Rating, p1.Rating);
+            });
         }
 
-        public void UpdateByAnotherList(List<cPlayer> ListToAdd)
+        
+        public void UpdatePlayersListByAnotherList(List<cPlayer> ListToAdd)
         {
             bool WasFound;
             for (int i = 0; i < ListToAdd.Count; i++)
@@ -96,12 +107,14 @@ namespace WpfTournament
     {
         public string ShowingName;
         public string FolderPath;
+        public string DLLPath;
         public string PageHTMLString;
 
-        public cGameShowInfo(string ShowName, string FolderPath, string HTMLString)
+        public cGameShowInfo(string ShowName, string FolderPath, string DLLPath, string HTMLString)
         {
             this.ShowingName = ShowName;
             this.FolderPath = FolderPath;
+            this.DLLPath = DLLPath;
             this.PageHTMLString = HTMLString;
         }
         public override string ToString()

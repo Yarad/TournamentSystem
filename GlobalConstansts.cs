@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using GamesFunctions;
 
 namespace WpfTournament
 {
+
     static class GlobalConstansts
     {
         public static string FOLDER_WITH_GAMES_NAME = "ExistedGames";
@@ -15,6 +15,12 @@ namespace WpfTournament
         public static string GAME_MAIN_PAGE_NAME = "index.html";
         public static string PAGE_DEFAULT_NAME = "default.html";
         public static string PLAYERS_LIST_FILE_NAME = "players.txt";
+        public static string DLL_MAIN_CLASS_NAME = "GameFunctions";
+        public static string DLL_FILE_OF_GAME = "GameFunctions.dll";
+        public static string DLL_RATING_COMPARE_FUNC = "RatingCompareFunction";
+
+        public static int DirectionUp = 1;
+        public static int DirectionDown = 0;
     }
 
     static class GlobalInfoMessages

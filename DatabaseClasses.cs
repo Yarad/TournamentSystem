@@ -4,23 +4,29 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace WpfTournament
 {
     public class cPlayer
     {
-        public ulong ID;
-        public string Name;
-        public string Surname;
-        public int Age;
-        public string Rating;
-        public string OtherInfo;
+        public ulong ID  { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public int Age { get; set; }
+        public string Rating { get; set; }
+        public int AmountOfTournamentGames { get; set; }
+        public string OtherInfo { get; set; }
         public List<string> GamesIDs = new List<string>(); 
 
         public cPlayer Clone()
         {
             return (cPlayer)this.MemberwiseClone();
         }
+        /*public override string ToString()
+        {
+            return this.Surname + this.Rating.ToString();
+        }*/
     }
 
     class cGamesInfoLoader
@@ -44,6 +50,7 @@ namespace WpfTournament
                 ExistedGames.Add(new cGameShowInfo(
                                 GamesFolders[i].Name,
                                 GamesFolders[i].FullName,
+                                GamesFolders[i].FullName + '/' + GlobalConstansts.DLL_FILE_OF_GAME,
                                 File.ReadAllText(GamesFolders[i].FullName + '/' + GlobalConstansts.GAME_MAIN_PAGE_NAME, Encoding.UTF8)
                                 ));
                 //полностью заполняет инфу об игре для вывода в список
@@ -57,7 +64,7 @@ namespace WpfTournament
             return (List<cPlayer>)JsonConvert.DeserializeObject(temp);
         }
 
-        //созраняет список игроков по имени игры
+        //сохраняет список игроков по имени игры
         public void SaveListOfPlayersByGameName(string GameName, List<cPlayer> PlayersList)
         {
             using (FileStream fs = new FileStream(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, FileMode.OpenOrCreate))
@@ -66,6 +73,25 @@ namespace WpfTournament
                 fs.Write(CurrPlayersListInJSON, 0, CurrPlayersListInJSON.Length);
             }
         }
+
+        //функция для заполнения основного объекта по текущей информации
+        public void FillGameObjByGameShowInfoObj(cGame CurrGame, cGameShowInfo GameShowInfo)
+        {
+            CurrGame.Name = GameShowInfo.ShowingName;
+            
+            var DLLLoader = Assembly.LoadFile(GameShowInfo.DLLPath); //создаем загрузчик
+            var ClassMethods = DLLLoader.GetType(GlobalConstansts.DLL_MAIN_CLASS_NAME); //получить информацию о методах в dll-ке
+            var o = DLLLoader.CreateInstance(GlobalConstansts.DLL_MAIN_CLASS_NAME); //создаем объект этого типа
+            var RatingCompareDelegate = ClassMethods.GetMethod(GlobalConstansts.DLL_RATING_COMPARE_FUNC);
+
+            CurrGame.RatingCompareFunction = (string Raiting1, string Raiting2) =>
+            {
+                var DllMethodParams = new object[2]{Raiting1,Raiting2};
+                return (int)RatingCompareDelegate.Invoke(o, DllMethodParams);
+            };
+        }
+
+        
     }
 
 }
