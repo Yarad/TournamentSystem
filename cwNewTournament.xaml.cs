@@ -21,20 +21,17 @@ namespace WpfTournament
     {
         private cGamesInfoLoader GamesInfoLoader;
         public cGame ChoosedGame;
-        private cCurrPlayerInfoEditor PlayerInfoEditor;
-        private cListOfPlayers FinalPlayersList;
+        private cListOfPlayers FinalPlayersList; //это и есть элемент со списком
 
         public cwNewTournament()
         {
             InitializeComponent();
             GamesInfoLoader = new cGamesInfoLoader();
+
+            FillGamesPreInfo();
             ChoosedGame = new cGame();
-
-            PlayerInfoEditor = new cCurrPlayerInfoEditor(ref ChoosedGame);
             FinalPlayersList = new cListOfPlayers(ref ChoosedGame);
-
             grdFinalListOfPlayers.Children.Add(FinalPlayersList);
-            grdFinalListOfPlayers.Children.Add(PlayerInfoEditor);
 
         }
         public cwNewTournament(double LeftMargin, double TopMargin)
@@ -55,10 +52,10 @@ namespace WpfTournament
         {
             GlobalFunctions.ShowWindowAtLoc(/*cwMainWindow.wMainWindow*/App.Current.MainWindow, this.Left, this.Top, this.Width, this.Height, this.WindowState);
             this.Visibility = Visibility.Hidden;
-            
+
             foreach (Window w in this.OwnedWindows)
                 w.Close();
-            
+
             e.Cancel = true;
         }
         private void btnFormList_Click(object sender, RoutedEventArgs e)
@@ -75,7 +72,15 @@ namespace WpfTournament
         {
             GlobalForms.wPlayerInfoEditor.Owner = this;
             GlobalFunctions.ShowWindowAtLoc(GlobalForms.wPlayerInfoEditor, this.Left + (this.Width - GlobalForms.wPlayerInfoEditor.Width) / 2, this.Top + (this.Height - GlobalForms.wPlayerInfoEditor.Height) / 2, GlobalForms.wPlayerInfoEditor.Width, GlobalForms.wPlayerInfoEditor.Height);
-            //GlobalForms.wPlayerInfoEditor.Visibility = Visibility.Visible;
+            GlobalForms.wPlayerInfoEditor.PlayerInfoWasFormed += this.Adding;
+            this.IsEnabled = false;
+        }
+        private void Adding(cPlayer FormedPlayer)
+        {
+            if (FormedPlayer != null)
+                this.ChoosedGame.AddPlayer(FormedPlayer);
+            GlobalForms.wPlayerInfoEditor.PlayerInfoWasFormed -= this.Adding;
+            this.IsEnabled = true;
         }
 
         private void FillGamesPreInfo()
@@ -94,7 +99,8 @@ namespace WpfTournament
             ComboBoxGamesList.SelectedIndex = -1; //проверить, нужно ли это
             ComboBoxGamesList.Text = GlobalInfoMessages.CHOOSE_GAME;
             ComboBoxGamesList.IsEditable = true;
-
+            if (FinalPlayersList != null)
+                FinalPlayersList.Items.Refresh();
             UpdateInfoInWebBrowserByComboBox(ComboBoxGamesList);
 
             TabItemGame1.IsSelected = true;
@@ -114,7 +120,11 @@ namespace WpfTournament
 
         private void Window_IsVisibleChanged_1(object sender, DependencyPropertyChangedEventArgs e)
         {
-            FillGamesPreInfo();
+            if ((sender as Window).Visibility == Visibility.Visible)
+            {
+                ChoosedGame.Reset();
+                FillGamesPreInfo();
+            }
         }
 
     }

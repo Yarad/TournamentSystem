@@ -103,6 +103,11 @@ namespace WpfTournament
             }
 
         }
+        public void Reset()
+        {
+            ListOfPlayers.Clear();
+        }
+
 
         //временно. нужно перенести в админку
         public void SaveToFile(string FileName)

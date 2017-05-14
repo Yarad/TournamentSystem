@@ -31,6 +31,15 @@ namespace WpfTournament
             this.Rating = Rating;
             this.AmountOfTournamentGames = AmountOfTournaments;
         }
+
+        public cPlayer(string Name, string Surname, int Age, string Rating, string OtherInfo)
+        {
+            this.Name = Name;
+            this.Surname = Surname;
+            this.Age = Age;
+            this.Rating = Rating;
+            this.OtherInfo = OtherInfo;
+        }
         public cPlayer Clone()
         {
             return (cPlayer)this.MemberwiseClone();

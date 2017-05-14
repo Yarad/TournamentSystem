@@ -19,12 +19,8 @@ namespace WpfTournament
         {
             this.RefToGameInfo = CurrGame;
             this.ItemsSource = CurrGame.ListOfPlayers;
-            
-            this.Columns.Add(new DataGridTextColumn()
-            {
-                Header = "ID",
-                Binding = new Binding("ID")
-            });
+
+            this.Columns.Clear();
             this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Фамилия",

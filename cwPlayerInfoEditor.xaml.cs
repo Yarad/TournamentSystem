@@ -16,8 +16,14 @@ namespace WpfTournament
     /// <summary>
     /// Логика взаимодействия для Window1.xaml
     /// </summary>
+    public delegate void DelegateWithPlayerInReturn(cPlayer ReturnPlayer);
+
     public partial class cwPlayerInfoEditor : Window
     {
+
+        public event DelegateWithPlayerInReturn PlayerInfoWasFormed;
+
+        public cPlayer ResPlayerInfo;
         public cwPlayerInfoEditor()
         {
             InitializeComponent();
@@ -25,14 +31,38 @@ namespace WpfTournament
 
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Hidden;
+            try
+            {
+                ResPlayerInfo = new cPlayer(TextBoxName.Text, TextBoxSurname.Text, Int32.Parse(TextBoxAge.Text), TextBoxRating.Text, TextBoxOther.Text);
+                if (PlayerInfoWasFormed != null) PlayerInfoWasFormed(ResPlayerInfo);
+                this.Visibility = Visibility.Hidden;
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка ввода");
+            }
         }
 
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             (sender as Window).Visibility = Visibility.Hidden;
+            if (PlayerInfoWasFormed != null) PlayerInfoWasFormed(null);
             e.Cancel = true;
         }
-        
+
+        private void ResetAllControls()
+        {
+            TextBoxName.Clear();
+            TextBoxSurname.Clear();
+            TextBoxAge.Clear();
+            TextBoxRating.Clear();
+            TextBoxOther.Clear();
+        }
+
+        private void Window_IsVisibleChanged_1(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((sender as Window).Visibility == Visibility.Visible)
+                ResetAllControls();
+        }
     }
 }

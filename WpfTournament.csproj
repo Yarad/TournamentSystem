@@ -59,7 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CurrPlayerInfoEditor.cs" />
     <Compile Include="ListOfPlayers.cs" />
     <Compile Include="RatingSystem.cs" />
     <Compile Include="cwPlayerInfoEditor.xaml.cs">
