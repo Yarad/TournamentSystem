@@ -1,0 +1,10 @@
+﻿<Window x:Class="WpfTournament.cwPlayerInfoEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window1" Height="382.09" Width="332.836" Topmost="True" WindowStartupLocation="CenterOwner" Background="#FFF5CDB1" BorderBrush="Red" Visibility="Hidden" ResizeMode="NoResize" Closing="Window_Closing_1">
+    <Grid Margin="20">
+        <StackPanel>
+            <Button Content="Готово" Height="53" Click="Button_OK_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

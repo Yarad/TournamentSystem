@@ -51,6 +51,7 @@ namespace WpfTournament
             return IsFirstGreater(Int32.Parse(Raiting1), Int32.Parse(Raiting2));
 
         }
+        /*
         public static int GoRatingCompare(string Raiting1, string Raiting2)
         {
             Raiting1.Trim();
@@ -91,15 +92,23 @@ namespace WpfTournament
             }
 
         }
+        */
 
-        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin, double Width, double Height, WindowState PrevWindowState)
+        public static void ShowWindowAtLoc(object sender, double LeftMargin, double TopMargin, double Width, double Height, WindowState WindowState = WindowState.Normal)
         {
+            if (sender == null) return;
             (sender as Window).Left = LeftMargin;
             (sender as Window).Top = TopMargin;
             (sender as Window).Width = Width;
             (sender as Window).Height = Height;
-            (sender as Window).WindowState = PrevWindowState;
+            (sender as Window).WindowState = WindowState;
             (sender as Window).Show();
         }
+    }
+
+    public static class GlobalForms
+    {
+        public static cwPlayerInfoEditor wPlayerInfoEditor;
+        public static cwNewTournament wNewTournament;
     }
 }

@@ -19,14 +19,17 @@ namespace WpfTournament
     /// </summary>
     public partial class cwMainWindow : Window
     {
-
-        private cwNewTournament wNewTournament;
+        //общедоступные формы
 
         //public static cwMainWindow wMainWindow = null;
         public cwMainWindow()
         {
             InitializeComponent();
-            //wMainWindow = this;
+            GlobalForms.wPlayerInfoEditor = new cwPlayerInfoEditor();
+            GlobalForms.wPlayerInfoEditor.Close();
+            GlobalForms.wNewTournament = new cwNewTournament();
+            GlobalForms.wNewTournament.Visibility = Visibility.Hidden;
+
         }
 
         public void OnLabelMouseEnter(object sender, EventArgs e)
@@ -40,14 +43,18 @@ namespace WpfTournament
 
         public void OnNewTournamentClick(object sender, EventArgs e)
         {
-            wNewTournament = new cwNewTournament();
-            GlobalFunctions.ShowWindowAtLoc(wNewTournament, this.Left, this.Top, this.Width,this.Height,this.WindowState);
+            GlobalFunctions.ShowWindowAtLoc(GlobalForms.wNewTournament, this.Left, this.Top, this.Width, this.Height, this.WindowState);
             this.Hide();
         }
 
         private void btnOpenFile_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.WindowState = WindowState.Maximized;
+        }
+
+        private void Window_Closed_1(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

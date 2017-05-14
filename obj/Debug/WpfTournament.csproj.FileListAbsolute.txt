@@ -15,3 +15,5 @@ D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwMainWindow.baml
 D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwMainWindow.g.cs
 D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\Newtonsoft.Json.dll
 D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\GameFunctions.dll
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwPlayerInfoEditor.baml
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwPlayerInfoEditor.g.cs

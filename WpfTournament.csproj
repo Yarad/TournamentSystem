@@ -59,8 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CurrPlayerInfoEditor.cs" />
     <Compile Include="ListOfPlayers.cs" />
     <Compile Include="RatingSystem.cs" />
+    <Compile Include="cwPlayerInfoEditor.xaml.cs">
+      <DependentUpon>cwPlayerInfoEditor.xaml</DependentUpon>
+    </Compile>
     <Page Include="cwMainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +80,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="cwNewTournament.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="cwPlayerInfoEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

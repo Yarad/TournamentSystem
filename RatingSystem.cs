@@ -4,27 +4,26 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Newtonsoft.Json;
-//using System.Text;
-
+using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace WpfTournament
 {
     public delegate int RatingCompareDelegate(string Raiting1, string Raiting2);
+    public delegate void EventDelegateWithPlayer(cPlayer CurrPlayer);
+    
     [JsonObject]
-    public class cGame:IComparer<string> //управляет абсолютно всей информацией, необходимой для дальнейшего проведения турнира
+    public class cGame : System.Collections.IComparer //управляет абсолютно всей информацией, необходимой для дальнейшего проведения турнира
     {
         [JsonIgnore]
         public string Name;
-        private List<cPlayer> PlayersOfGame; //подгрузится отдельно
+        public List<cPlayer> ListOfPlayers; //подгрузится отдельно
         public RatingCompareDelegate RatingCompareFunction;
-        int IComparer<string>.Compare(string x, string y)
-        {
-            return RatingCompareFunction(x,y);
-        }
+        public event EventDelegateWithPlayer PlayerWasAdded;
 
         public cGame()
         {
-            PlayersOfGame = new List<cPlayer>();
+            ListOfPlayers = new List<cPlayer>();
             //используем как стандартное значение
             RatingCompareFunction = GlobalFunctions.ChessRatingCompare;
         }
@@ -32,61 +31,74 @@ namespace WpfTournament
         public cGame(string Name)
         {
             this.Name = Name;
-            PlayersOfGame = new List<cPlayer>();
+            ListOfPlayers = new List<cPlayer>();
+        }
+
+        public void AddPlayer(cPlayer PlayerObj)
+        {
+            ListOfPlayers.Add(PlayerObj);
+            PlayerWasAdded(PlayerObj);
         }
 
         public void SortPlayersByName(int Direction)
         {
             if (Direction == GlobalConstansts.DirectionUp)
-                PlayersOfGame.Sort(
-                    delegate(cPlayer p1, cPlayer p2){ return String.Compare(p1.Surname, p2.Surname);}
+                ListOfPlayers.Sort(
+                    delegate(cPlayer p1, cPlayer p2) { return String.Compare(p1.Surname, p2.Surname); }
                 );
             else
-                PlayersOfGame.Sort(
-                delegate(cPlayer p1, cPlayer p2){return String.Compare(p2.Surname, p1.Surname);}
+                ListOfPlayers.Sort(
+                delegate(cPlayer p1, cPlayer p2) { return String.Compare(p2.Surname, p1.Surname); }
             );
         }
         public void SortPlayersByAge(int Direction)
         {
-            PlayersOfGame.Sort(delegate(cPlayer p1, cPlayer p2)
+            ListOfPlayers.Sort(delegate(cPlayer p1, cPlayer p2)
             {
-                if (p1.Age*Direction > p2.Age*Direction)
+                if (p1.Age * Direction > p2.Age * Direction)
                     return 1;
-                else if (p1.Age*Direction < p2.Age*Direction)
+                else if (p1.Age * Direction < p2.Age * Direction)
                     return -1;
                 else
                     return 0;
             });
         }
-        public void SortPlayersByLevel(int Direction)
+        public void SortPlayersByLevel(ListSortDirection Direction = ListSortDirection.Descending)
         {
-            PlayersOfGame.Sort(delegate(cPlayer p1, cPlayer p2) {
+            /*ListOfPlayers.Sort(delegate(cPlayer p1, cPlayer p2)
+            {
                 if(Direction==GlobalConstansts.DirectionUp)
+                    return this.RatingCompareFunction(p1.Rating, p2.Rating);
+                else
+                    return this.RatingCompareFunction(p2.Rating, p1.Rating);
+            });*/
+            ListOfPlayers.Sort(delegate(cPlayer p1, cPlayer p2)
+            {
+                if(Direction==ListSortDirection.Ascending)
                     return this.RatingCompareFunction(p1.Rating, p2.Rating);
                 else
                     return this.RatingCompareFunction(p2.Rating, p1.Rating);
             });
         }
-
-        
+       
         public void UpdatePlayersListByAnotherList(List<cPlayer> ListToAdd)
         {
             bool WasFound;
             for (int i = 0; i < ListToAdd.Count; i++)
             {
                 WasFound = false;
-                for (int j = 0; j < PlayersOfGame.Count; j++)
+                for (int j = 0; j < ListOfPlayers.Count; j++)
                 {
-                    if (PlayersOfGame[i].ID == ListToAdd[i].ID)
+                    if (ListOfPlayers[i].ID == ListToAdd[i].ID)
                     {
-                        PlayersOfGame[i] = ListToAdd[j].Clone();
+                        ListOfPlayers[i] = ListToAdd[j].Clone();
                         WasFound = true;
                         break;
                     }
                 }
                 if (!WasFound)
                 {
-                    PlayersOfGame.Add(ListToAdd[i]);
+                    ListOfPlayers.Add(ListToAdd[i]);
                 }
             }
 
@@ -100,6 +112,15 @@ namespace WpfTournament
                 byte[] CurrGameInJSON = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
                 fs.Write(CurrGameInJSON, 0, CurrGameInJSON.Length);
             }
+        }
+
+        public ListSortDirection SortDirection;
+        public int Compare(object x, object y)
+        {
+            if (SortDirection == ListSortDirection.Ascending)
+                return RatingCompareFunction(((cPlayer)x).Rating, ((cPlayer)y).Rating);
+            else
+                return RatingCompareFunction(((cPlayer)y).Rating, ((cPlayer)x).Rating);
         }
     }
 

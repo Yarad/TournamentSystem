@@ -21,13 +21,21 @@ namespace WpfTournament
     {
         private cGamesInfoLoader GamesInfoLoader;
         public cGame ChoosedGame;
+        private cCurrPlayerInfoEditor PlayerInfoEditor;
+        private cListOfPlayers FinalPlayersList;
 
         public cwNewTournament()
         {
             InitializeComponent();
             GamesInfoLoader = new cGamesInfoLoader();
             ChoosedGame = new cGame();
-            FillGamesPreInfo();
+
+            PlayerInfoEditor = new cCurrPlayerInfoEditor(ref ChoosedGame);
+            FinalPlayersList = new cListOfPlayers(ref ChoosedGame);
+
+            grdFinalListOfPlayers.Children.Add(FinalPlayersList);
+            grdFinalListOfPlayers.Children.Add(PlayerInfoEditor);
+
         }
         public cwNewTournament(double LeftMargin, double TopMargin)
         {
@@ -46,6 +54,12 @@ namespace WpfTournament
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             GlobalFunctions.ShowWindowAtLoc(/*cwMainWindow.wMainWindow*/App.Current.MainWindow, this.Left, this.Top, this.Width, this.Height, this.WindowState);
+            this.Visibility = Visibility.Hidden;
+            
+            foreach (Window w in this.OwnedWindows)
+                w.Close();
+            
+            e.Cancel = true;
         }
         private void btnFormList_Click(object sender, RoutedEventArgs e)
         {
@@ -57,25 +71,12 @@ namespace WpfTournament
         {
             //не написано
         }
-
         private void btnAddPlayersFromInput_Click(object sender, RoutedEventArgs e)
         {
-            var TempList = new cListOfPlayers();
-            var TempPlayer = new cPlayer();
-            TempPlayer.Name = "Андрей";
-            TempPlayer.Surname = "Жлобич";
-            TempPlayer.Rating = "10k";
-            TempList.AddPlayer(TempPlayer);
-
-            var TempPlayer2 = new cPlayer();
-            TempPlayer2.Name = "Андрей";
-            TempPlayer2.Surname = "Алобич";
-            TempPlayer2.Rating = "10k";
-            TempList.AddPlayer(TempPlayer2);
-
-            grdFinalListOfPlayers.Children.Add(TempList);
+            GlobalForms.wPlayerInfoEditor.Owner = this;
+            GlobalFunctions.ShowWindowAtLoc(GlobalForms.wPlayerInfoEditor, this.Left + (this.Width - GlobalForms.wPlayerInfoEditor.Width) / 2, this.Top + (this.Height - GlobalForms.wPlayerInfoEditor.Height) / 2, GlobalForms.wPlayerInfoEditor.Width, GlobalForms.wPlayerInfoEditor.Height);
+            //GlobalForms.wPlayerInfoEditor.Visibility = Visibility.Visible;
         }
-
 
         private void FillGamesPreInfo()
         {
@@ -109,6 +110,11 @@ namespace WpfTournament
                 WebBrowserGameInfo.NavigateToString(((sender as ComboBox).SelectedItem as cGameShowInfo).PageHTMLString);
             else
                 WebBrowserGameInfo.NavigateToString(Default);
+        }
+
+        private void Window_IsVisibleChanged_1(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            FillGamesPreInfo();
         }
 
     }

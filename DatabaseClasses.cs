@@ -10,15 +10,27 @@ namespace WpfTournament
 {
     public class cPlayer
     {
-        public ulong ID  { get; set; }
+        public ulong ID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public int Age { get; set; }
         public string Rating { get; set; }
         public int AmountOfTournamentGames { get; set; }
+        public string URL { get; set; }
         public string OtherInfo { get; set; }
-        public List<string> GamesIDs = new List<string>(); 
+        public List<string> GamesIDs = new List<string>();
 
+        public cPlayer() { }
+        public cPlayer(ulong ID, string Name, string Surname, int Age, string URL, string Rating = "0", int AmountOfTournaments = 0)
+        {
+            this.ID = ID;
+            this.Name = Name;
+            this.Surname = Surname;
+            this.Age = Age;
+            this.URL = URL;
+            this.Rating = Rating;
+            this.AmountOfTournamentGames = AmountOfTournaments;
+        }
         public cPlayer Clone()
         {
             return (cPlayer)this.MemberwiseClone();
@@ -78,7 +90,7 @@ namespace WpfTournament
         public void FillGameObjByGameShowInfoObj(cGame CurrGame, cGameShowInfo GameShowInfo)
         {
             CurrGame.Name = GameShowInfo.ShowingName;
-            
+
             var DLLLoader = Assembly.LoadFile(GameShowInfo.DLLPath); //создаем загрузчик
             var ClassMethods = DLLLoader.GetType(GlobalConstansts.DLL_MAIN_CLASS_NAME); //получить информацию о методах в dll-ке
             var o = DLLLoader.CreateInstance(GlobalConstansts.DLL_MAIN_CLASS_NAME); //создаем объект этого типа
@@ -86,12 +98,12 @@ namespace WpfTournament
 
             CurrGame.RatingCompareFunction = (string Raiting1, string Raiting2) =>
             {
-                var DllMethodParams = new object[2]{Raiting1,Raiting2};
+                var DllMethodParams = new object[2] { Raiting1, Raiting2 };
                 return (int)RatingCompareDelegate.Invoke(o, DllMethodParams);
             };
         }
 
-        
+
     }
 
 }

@@ -5,60 +5,112 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.ComponentModel;
 
 namespace WpfTournament
 {
-    class cListOfPlayers : ListView
+    class cListOfPlayers : DataGrid
     {
-        private GridView TemplateGridView;
-        
-        public cListOfPlayers()
+        private cGame RefToGameInfo;
+        public cListOfPlayers(ref cGame CurrGame)
         {
-            TemplateGridView = new GridView();
-            this.View = TemplateGridView;
-            TemplateGridView.Columns.Add(new GridViewColumn
+            this.RefToGameInfo = CurrGame;
+            this.ItemsSource = CurrGame.ListOfPlayers;
+            
+            this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "ID",
-                DisplayMemberBinding = new Binding("ID")
+                Binding = new Binding("ID")
             });
-            TemplateGridView.Columns.Add(new GridViewColumn
+            this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Фамилия",
-                DisplayMemberBinding = new Binding("Surname")
+                Binding = new Binding("Surname")
             });
-            TemplateGridView.Columns.Add(new GridViewColumn
+            this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Имя",
-                DisplayMemberBinding = new Binding("Name")
+                Binding = new Binding("Name")
             });
-            TemplateGridView.Columns.Add(new GridViewColumn
+            this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Возраст",
-                DisplayMemberBinding = new Binding("Age")
+                Binding = new Binding("Age")
             });
-            TemplateGridView.Columns.Add(new GridViewColumn
+            this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Рейтинг",
-                DisplayMemberBinding = new Binding("Rating")
+                Binding = new Binding("Rating")
             });
-            TemplateGridView.Columns.Add(new GridViewColumn
+            this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Кол-во турнирных партий",
-                DisplayMemberBinding = new Binding("AmountOfTournamentGames")
+                Binding = new Binding("AmountOfTournamentGames")
             });
+            //this.CurrentColumn = this.Columns[0];
             
             this.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.VerticalAlignment = VerticalAlignment.Top;
             this.Margin = new Thickness(22,22,22,0);
             this.Height = 200;
-            this.Items.SortDescriptions.Add( new System.ComponentModel.SortDescription("Name",System.ComponentModel.ListSortDirection.Ascending));
+            this.IsReadOnly = true;
             
+            this.Sorting += new DataGridSortingEventHandler(SortHandler);
+            RefToGameInfo.PlayerWasAdded += ElementWasAddedHandler;
+           
+            //this.Sor += cListOfPlayers_Click;
+            //this.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Rating", System.ComponentModel.ListSortDirection.Ascending));
+            //this.Items.Comparer = this.RefToGameInfo;
+            //var view = (ListCollectionView)CollectionViewSource.GetDefaultView(this.ItemsSource);
         }
 
-        public void AddPlayer(cPlayer CurrPlayer)
+        void ElementWasAddedHandler(cPlayer Temp)
         {
-            this.Items.Add(CurrPlayer);
+            if (this.CurrentColumn != null)
+            {
+                this.OnSorting(new DataGridSortingEventArgs(this.CurrentColumn));
+                this.OnSorting(new DataGridSortingEventArgs(this.CurrentColumn));
+            }
+            this.Items.Refresh();
+            //if (this.CurrentColumn==null)
+            //    this.OnSorting(new DataGridSortingEventArgs(this.Columns[0]));
+            //else
+            //    this.OnSorting(new DataGridSortingEventArgs(this.CurrentColumn));
         }
+
+        void SortHandler(object sender, DataGridSortingEventArgs e)
+        {
+            DataGridColumn column = e.Column;
+            (sender as cListOfPlayers).CurrentColumn = e.Column;
+            if ((column==null)||((string)column.Header != "Рейтинг")) return;
+            
+            System.Collections.IComparer comparer = null;
+            //i do some custom checking based on column to get the right comparer
+            //i have different comparers for different columns. I also handle the sort direction
+            //in my comparer
+
+            // prevent the built-in sort from sorting
+            e.Handled = true;
+
+            ListSortDirection direction = (column.SortDirection != ListSortDirection.Ascending) ? ListSortDirection.Ascending : ListSortDirection.Descending;
+
+            //set the sort order on the column
+            column.SortDirection = direction;
+            this.RefToGameInfo.SortDirection = direction;
+            //use a ListCollectionView to do the sort.
+            ICollectionView temp = CollectionViewSource.GetDefaultView(this.ItemsSource);
+            ListCollectionView lcv = (ListCollectionView)temp;
+
+            //this is my custom sorter it just derives from IComparer and has a few properties
+            //you could just apply the comparer but i needed to do a few extra bits and pieces
+            comparer = this.RefToGameInfo;
+
+            //apply the sort
+            lcv.CustomSort = comparer;
+        }
+
     }
 }

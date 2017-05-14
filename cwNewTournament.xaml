@@ -4,7 +4,7 @@
         Title="Новый турнир" 
         Style="{StaticResource AllWindows}"
         Closing="OnWindowClosing"
-        MinWidth="640px">
+        MinWidth="640px" IsVisibleChanged="Window_IsVisibleChanged_1">
     <Window.Background>
         <ImageBrush ImageSource="Images/Res/empty.jpg"/>
     </Window.Background>
