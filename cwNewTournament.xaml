@@ -54,21 +54,30 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="2*" MinWidth="200"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
                         <Grid Grid.Row="0" Grid.Column="0" x:Name="temp">
-                            <Button Name="btnAddPlayersFromLocalDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="22,20,22,0" Height="50" Click="btnAddPlayersFromLocalDB_Click">
-                                Добавить из файла
-                            </Button>
-
-                            <Button Name="btnAddPlayersFromInput" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="22,86,22,0" Height="50" Click="btnAddPlayersFromInput_Click">
-                                Добавить вручную
-                            </Button>
+                            <StackPanel>
+                                <Button Name="btnAddPlayersFromDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="50" Click="btnAddPlayersFromDB_Click">
+                                    <Button.Content>
+                                        <TextBlock Text="Выбрать из базы данных игроков" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Name="btnAddPlayersFromInput" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Click="btnAddPlayersFromInput_Click">
+                                    Добавить вручную
+                                </Button>
+                                <Button Name="btnAddPlayersFromLocalDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Click="btnAddPlayersFromLocalDB_Click">
+                                    Добавить из файла
+                                </Button>
+                                <Button Name="btnSaveCurrListInFile" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="50" Click="btnSaveCurrListInFile_Click">
+                                    <Button.Content>
+                                        <TextBlock Text="Сохранить текущий список в файл" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
                         </Grid>
-                        <Grid x:Name="grdFinalListOfPlayers" Background="AliceBlue" Grid.Row="0" Grid.Column="2">
-                            
-                        </Grid>
+                        <Grid x:Name="grdFinalListOfPlayers" Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" />
                     </Grid>
                 </TabItem>
             </TabControl>

@@ -17,3 +17,7 @@ D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\Newtonsoft.Json.d
 D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\GameFunctions.dll
 D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwPlayerInfoEditor.baml
 D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwPlayerInfoEditor.g.cs
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwChoosingPlayersFromList.baml
+D:\Projects\Турнир\WpfTournament\WpfTournament\obj\Debug\cwChoosingPlayersFromList.g.cs
+D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\CsvHelper.dll
+D:\Projects\Турнир\WpfTournament\WpfTournament\bin\Debug\CsvHelper.xml

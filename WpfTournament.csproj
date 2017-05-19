@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net40\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="GameFunctions">
       <HintPath>bin\Debug\ExistedGames\Го\GameFunctions.dll</HintPath>
     </Reference>
@@ -42,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -59,11 +63,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="cwChoosingPlayersFromList.xaml.cs">
+      <DependentUpon>cwChoosingPlayersFromList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ListOfPlayers.cs" />
     <Compile Include="RatingSystem.cs" />
     <Compile Include="cwPlayerInfoEditor.xaml.cs">
       <DependentUpon>cwPlayerInfoEditor.xaml</DependentUpon>
     </Compile>
+    <Page Include="cwChoosingPlayersFromList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="cwMainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,6 +128,7 @@
     <None Include="Images\temp3.psd" />
     <None Include="Images\temp4.psd" />
     <None Include="Images\temp5.psd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

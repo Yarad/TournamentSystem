@@ -27,8 +27,12 @@ namespace WpfTournament
             InitializeComponent();
             GlobalForms.wPlayerInfoEditor = new cwPlayerInfoEditor();
             GlobalForms.wPlayerInfoEditor.Close();
+
             GlobalForms.wNewTournament = new cwNewTournament();
-            GlobalForms.wNewTournament.Visibility = Visibility.Hidden;
+            GlobalForms.wNewTournament.Close();
+
+            GlobalForms.wChoosingPlayersFromList = new cwChoosingPlayersFromList();
+            GlobalForms.wChoosingPlayersFromList.Close();
         }
 
         public void OnLabelMouseEnter(object sender, EventArgs e)

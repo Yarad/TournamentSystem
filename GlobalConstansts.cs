@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace WpfTournament
 {
@@ -14,10 +16,17 @@ namespace WpfTournament
         //public static string MAIN_GAME_IMAGE_NAME = "main";
         public static string GAME_MAIN_PAGE_NAME = "index.html";
         public static string PAGE_DEFAULT_NAME = "default.html";
-        public static string PLAYERS_LIST_FILE_NAME = "players.txt";
+        public static string PLAYERS_LIST_FILE_NAME = "players.csv";
         public static string DLL_MAIN_CLASS_NAME = "GameFunctions";
         public static string DLL_FILE_OF_GAME = "GameFunctions.dll";
         public static string DLL_RATING_COMPARE_FUNC = "RatingCompareFunction";
+        public static string SAVED_FILES_FILTER = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+        public static string DEFAULT_DB_DELIMITER = ";";
+        public static Encoding BASE_ENCODING = Encoding.GetEncoding(1251);
+
+        public static int LST_FORM = 1;
+        public static int LST_CHOOSE = 2;
+
 
         public static int DirectionUp = 1;
         public static int DirectionDown = 0;
@@ -30,6 +39,7 @@ namespace WpfTournament
 
     static class GlobalFunctions
     {
+       
         public static int IsFirstGreater(int a, int b)
         {
             if (a > b)
@@ -110,5 +120,6 @@ namespace WpfTournament
     {
         public static cwPlayerInfoEditor wPlayerInfoEditor;
         public static cwNewTournament wNewTournament;
+        public static cwChoosingPlayersFromList wChoosingPlayersFromList;
     }
 }

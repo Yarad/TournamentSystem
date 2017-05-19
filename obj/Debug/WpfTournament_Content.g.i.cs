@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/res/sword.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("kent.boogaart.kbcsv.dll")]
 
 

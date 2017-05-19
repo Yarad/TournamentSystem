@@ -11,7 +11,7 @@ namespace WpfTournament
 {
     public delegate int RatingCompareDelegate(string Raiting1, string Raiting2);
     public delegate void EventDelegateWithPlayer(cPlayer CurrPlayer);
-    
+
     [JsonObject]
     public class cGame : System.Collections.IComparer //управляет абсолютно всей информацией, необходимой для дальнейшего проведения турнира
     {
@@ -74,13 +74,13 @@ namespace WpfTournament
             });*/
             ListOfPlayers.Sort(delegate(cPlayer p1, cPlayer p2)
             {
-                if(Direction==ListSortDirection.Ascending)
+                if (Direction == ListSortDirection.Ascending)
                     return this.RatingCompareFunction(p1.Rating, p2.Rating);
                 else
                     return this.RatingCompareFunction(p2.Rating, p1.Rating);
             });
         }
-       
+
         public void UpdatePlayersListByAnotherList(List<cPlayer> ListToAdd)
         {
             bool WasFound;
@@ -108,9 +108,18 @@ namespace WpfTournament
             ListOfPlayers.Clear();
         }
 
+        public void CloneTo(ref cGame GameToCloneTo)
+        {
+            if (GameToCloneTo == null)
+                GameToCloneTo = new cGame();
+
+            GameToCloneTo.Name = this.Name;
+            GameToCloneTo.RatingCompareFunction = this.RatingCompareFunction;
+
+        }
 
         //временно. нужно перенести в админку
-        public void SaveToFile(string FileName)
+        /*public void SaveToFile(string FileName)
         {
             using (FileStream fs = new FileStream(FileName, FileMode.OpenOrCreate))
             {
@@ -118,7 +127,7 @@ namespace WpfTournament
                 fs.Write(CurrGameInJSON, 0, CurrGameInJSON.Length);
             }
         }
-
+        */
         public ListSortDirection SortDirection;
         public int Compare(object x, object y)
         {
