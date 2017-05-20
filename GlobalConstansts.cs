@@ -17,6 +17,7 @@ namespace WpfTournament
         public static string GAME_MAIN_PAGE_NAME = "index.html";
         public static string PAGE_DEFAULT_NAME = "default.html";
         public static string PLAYERS_LIST_FILE_NAME = "players.csv";
+        public static string MIN_ID_FILE_NAME = "MinID.txt";
         public static string DLL_MAIN_CLASS_NAME = "GameFunctions";
         public static string DLL_FILE_OF_GAME = "GameFunctions.dll";
         public static string DLL_RATING_COMPARE_FUNC = "RatingCompareFunction";

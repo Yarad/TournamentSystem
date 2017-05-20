@@ -22,7 +22,7 @@ namespace WpfTournament
     {
         private cGamesInfoLoader GamesInfoLoader;
         public cGame ChoosedGame;
-        private ListOfPlayers FinalPlayersList; //это и есть элемент со списком
+        private ListOfPlayers FinalPlayersList; //это и есть контрол со списком
 
         public cwNewTournament()
         {
@@ -45,12 +45,17 @@ namespace WpfTournament
 
         private void ComboBoxGamesList_Selected_1(object sender, RoutedEventArgs e)
         {
+            if(ChoosedGame.Name!=null)
+                GamesInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
             UpdateInfoInWebBrowserByComboBox((sender as ComboBox));
+            //заполнение полей только по нажатию на "выбрать игроков"
             ComboBoxGamesList.IsEditable = false;
             btnFormList.IsEnabled = true;
         }
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (ChoosedGame != null)
+                GamesInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
             GlobalFunctions.ShowWindowAtLoc(/*cwMainWindow.wMainWindow*/App.Current.MainWindow, this.Left, this.Top, this.Width, this.Height, this.WindowState);
             this.Visibility = Visibility.Hidden;
 
@@ -63,7 +68,9 @@ namespace WpfTournament
         {
             TabItemPlayers2.Visibility = Visibility.Visible;
             TabItemPlayers2.IsSelected = true;
-            GamesInfoLoader.FillGameObjByGameShowInfoObj(ChoosedGame, (cGameShowInfo)ComboBoxGamesList.SelectedValue);
+            GamesInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
+            GamesInfoLoader.FillGameObjByGameShowInfoObj(ref ChoosedGame, (cGameShowInfo)ComboBoxGamesList.SelectedValue);
+            GamesInfoLoader.FillMinLocalIDFieldInGame(ref ChoosedGame);
         }
         private void btnAddPlayersFromDB_Click(object sender, RoutedEventArgs e)
         {
@@ -71,16 +78,34 @@ namespace WpfTournament
         }
         private void btnAddPlayersFromLocalDB_Click(object sender, RoutedEventArgs e)
         {
-            var TempPlayersList = new List<cPlayer>();
+            var TempPlayersList = new List<cPlayer>(); //общий список
+            var NewRecordsList = new List<cPlayer>(); //из него - новые
+
             var opndlg = new OpenFileDialog();
             opndlg.Filter = GlobalConstansts.SAVED_FILES_FILTER;
             opndlg.Multiselect = true;
             opndlg.Title = "Выберите файлы для загрузки";
             opndlg.ShowDialog();
             string[] FileNames = opndlg.FileNames;
+            bool RequiredRewriting;
 
             for (int i = 0; i < FileNames.Count(); i++)
-                TempPlayersList.AddRange(GamesInfoLoader.GetListOfPlayersFromFile_CSV(FileNames[i]));
+            {
+                var LoadedListOfPlayers = GamesInfoLoader.GetListOfPlayersFromFile_CSV(FileNames[i]);
+                RequiredRewriting = false;
+
+                for (int j = 0; j < LoadedListOfPlayers.Count; j++)
+                    if (LoadedListOfPlayers[j].id == -1)
+                    {
+                        LoadedListOfPlayers[j].id = ChoosedGame.GetNextLocalID();
+                        NewRecordsList.Add(LoadedListOfPlayers[j]);
+                        RequiredRewriting = true;
+                    }
+                TempPlayersList.AddRange(LoadedListOfPlayers);
+
+                if (RequiredRewriting)
+                    GamesInfoLoader.SaveListOfPlayersInFile_CSV(FileNames[i], LoadedListOfPlayers);
+            }
 
             if (TempPlayersList.Count == 0)
                 MessageBox.Show("В этих файлах нет игроков");
@@ -92,6 +117,9 @@ namespace WpfTournament
                 GlobalForms.wChoosingPlayersFromList.eListIsFormed += this.ListIsFormedHandler;
                 this.IsEnabled = false;
             }
+
+            if (NewRecordsList.Count != 0)
+                GamesInfoLoader.SaveListOfPlayersByGameName_CSV(ChoosedGame.Name, NewRecordsList, FileMode.Append);
         }
         private void btnAddPlayersFromInput_Click(object sender, RoutedEventArgs e)
         {
@@ -99,6 +127,7 @@ namespace WpfTournament
             GlobalFunctions.ShowWindowAtLoc(GlobalForms.wPlayerInfoEditor, this.Left + (this.Width - GlobalForms.wPlayerInfoEditor.Width) / 2, this.Top + (this.Height - GlobalForms.wPlayerInfoEditor.Height) / 2, GlobalForms.wPlayerInfoEditor.Width, GlobalForms.wPlayerInfoEditor.Height);
             GlobalForms.wPlayerInfoEditor.PlayerInfoWasFormed += this.PlayerWasFormedHandler;
             this.IsEnabled = false;
+            
         }
         private void btnSaveCurrListInFile_Click(object sender, RoutedEventArgs e)
         {
@@ -110,8 +139,12 @@ namespace WpfTournament
             SaveFileDialog.Filter = GlobalConstansts.SAVED_FILES_FILTER;
             SaveFileDialog.ShowDialog();
             FileName = SaveFileDialog.FileName;
+
             if ((FileName != null) && (FileName != ""))
+            {
+                GamesInfoLoader.SynchronizeGameListWithLocalDB(ref ChoosedGame);
                 Result = GamesInfoLoader.SaveListOfPlayersInFile_CSV(FileName, ChoosedGame.ListOfPlayers);
+            }
             else
                 Result = false;
 
@@ -121,10 +154,15 @@ namespace WpfTournament
                 MessageBox.Show("Ошибка сохранения");
 
         }
+
         private void PlayerWasFormedHandler(cPlayer FormedPlayer)
         {
             if (FormedPlayer != null)
+            {
+                FormedPlayer.id = ChoosedGame.GetNextLocalID();
                 this.ChoosedGame.AddPlayer(FormedPlayer);
+                GamesInfoLoader.AddRecordToFileByGameName(ChoosedGame.Name, FormedPlayer);
+            }
             GlobalForms.wPlayerInfoEditor.PlayerInfoWasFormed -= this.PlayerWasFormedHandler;
             this.IsEnabled = true;
         }
@@ -136,7 +174,7 @@ namespace WpfTournament
                 {
                     res = true;
                     for (int j = 0; j < ChoosedGame.ListOfPlayers.Count(); j++)
-                        if ((FormedList[i].ID != -1) && (ChoosedGame.ListOfPlayers[j].ID == FormedList[i].ID))
+                        if ((FormedList[i].id != -1) && (ChoosedGame.ListOfPlayers[j].id == FormedList[i].id))
                             res = false;
                     if (res)
                         this.ChoosedGame.AddPlayer(FormedList[i]);
@@ -186,10 +224,15 @@ namespace WpfTournament
         {
             if ((sender as Window).Visibility == Visibility.Visible)
             {
-
                 ChoosedGame.Reset();
                 FillGamesPreInfo();
             }
+
+        }
+
+        private void btnStartTournament_Click_1(object sender, RoutedEventArgs e)
+        {
+            
         }
 
     }

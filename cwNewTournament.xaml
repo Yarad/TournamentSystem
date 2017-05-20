@@ -31,6 +31,7 @@
             </Grid.Effect>
             <ComboBox Style="{StaticResource TournamentComboBox}" x:Name="ComboBoxGamesList" Height="43" SelectionChanged="ComboBoxGamesList_Selected_1" />
             <Button Name="btnFormList" Content="Выбрать участников" HorizontalAlignment="Center" VerticalAlignment="Top" Width="170" Height="49" Margin="30,123,33,0" FontFamily="Book Antiqua" FontSize="15" Click="btnFormList_Click"/>
+            <Button Name="btnStartTournament" Content="Начать турнир" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="170" Height="49" Margin="30,0,33,50" FontFamily="Book Antiqua" FontSize="15" Click="btnStartTournament_Click_1"/>
         </Grid>
 
         <Grid Grid.Row="0" Grid.Column ="1" Margin="10 0 10 0">

@@ -156,7 +156,7 @@ namespace WpfTournament
             int realIndex = 0;
 
             for (int i = 0; i < (sender as ListOfPlayers).RefToGameInfo.ListOfPlayers.Count(); i++)
-                if (((sender as ListOfPlayers).SelectedItem as cPlayer).ID == (sender as ListOfPlayers).RefToGameInfo.ListOfPlayers[i].ID)
+                if (((sender as ListOfPlayers).SelectedItem as cPlayer).id == (sender as ListOfPlayers).RefToGameInfo.ListOfPlayers[i].id)
                 {
                     realIndex = i;
                     break;
@@ -186,7 +186,7 @@ namespace WpfTournament
             for (int i = 0; i < ChoosedIndexes.Count(); i++)
                 for (int j = 0; j < this.Items.Count; j++)
                 {
-                    if ((this.Items[j] as cPlayer).ID == RefToGameInfo.ListOfPlayers[ChoosedIndexes[i]].ID)
+                    if ((this.Items[j] as cPlayer).id == RefToGameInfo.ListOfPlayers[ChoosedIndexes[i]].id)
                     {
                         PaintItemById(j, 1);
                         continue;

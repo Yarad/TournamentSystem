@@ -44,6 +44,7 @@ namespace WpfTournament
 
         public void SetComparerAndPlayers(ref cGame GameComparer, ref List<cPlayer> ListOfAllPlayers)
         {
+            ShowingListOfPlayers.ChoosedIndexes.Clear();
             GameComparer.CloneTo(ref GameWithWholeList);
             GameWithWholeList.ListOfPlayers = ListOfAllPlayers;
             ShowingListOfPlayers.ItemsSource = GameWithWholeList.ListOfPlayers;

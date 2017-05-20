@@ -17,13 +17,13 @@ namespace WpfTournament
     {
         [JsonIgnore]
         public string Name;
-        public List<cPlayer> ListOfPlayers; //подгрузится отдельно
+        public long MinID;
+        public List<cPlayer> ListOfPlayers = new List<cPlayer>(); //подгрузится отдельно
         public RatingCompareDelegate RatingCompareFunction;
         public event EventDelegateWithPlayer PlayerWasAdded;
 
         public cGame()
         {
-            ListOfPlayers = new List<cPlayer>();
             //используем как стандартное значение
             RatingCompareFunction = GlobalFunctions.ChessRatingCompare;
         }
@@ -31,7 +31,7 @@ namespace WpfTournament
         public cGame(string Name)
         {
             this.Name = Name;
-            ListOfPlayers = new List<cPlayer>();
+            RatingCompareFunction = GlobalFunctions.ChessRatingCompare;
         }
 
         public void AddPlayer(cPlayer PlayerObj)
@@ -89,7 +89,7 @@ namespace WpfTournament
                 WasFound = false;
                 for (int j = 0; j < ListOfPlayers.Count; j++)
                 {
-                    if (ListOfPlayers[i].ID == ListToAdd[i].ID)
+                    if (ListOfPlayers[i].id == ListToAdd[i].id)
                     {
                         ListOfPlayers[i] = ListToAdd[j].Clone();
                         WasFound = true;
@@ -118,6 +118,11 @@ namespace WpfTournament
 
         }
 
+        public long GetNextLocalID()
+        {
+            MinID--;
+            return MinID;
+        }
         //временно. нужно перенести в админку
         /*public void SaveToFile(string FileName)
         {

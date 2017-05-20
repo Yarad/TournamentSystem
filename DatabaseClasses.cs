@@ -11,7 +11,7 @@ namespace WpfTournament
 {
     public class cPlayer
     {
-        public long ID { get; set; }
+        public long id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public int Age { get; set; }
@@ -24,7 +24,7 @@ namespace WpfTournament
         public cPlayer() { }
         public cPlayer(long ID, string Name, string Surname, int Age, string URL, string Rating = "0", int AmountOfTournaments = 0)
         {
-            this.ID = ID;
+            this.id = ID;
             this.Name = Name;
             this.Surname = Surname;
             this.Age = Age;
@@ -35,6 +35,7 @@ namespace WpfTournament
 
         public cPlayer(string Name, string Surname, int Age, string Rating, string OtherInfo)
         {
+            this.id = -1;
             this.Name = Name;
             this.Surname = Surname;
             this.Age = Age;
@@ -51,6 +52,7 @@ namespace WpfTournament
         }*/
     }
 
+    public delegate long DelegateWithLongReturn();
     class cGamesInfoLoader
     {
         public List<cGameShowInfo> ExistedGames;
@@ -136,11 +138,13 @@ namespace WpfTournament
             try
             {
                 List<cPlayer> res;
-                using (TextReader writer = new StreamReader(new FileStream(FileName,FileMode.Open),GlobalConstansts.BASE_ENCODING))
+                using (TextReader writer = new StreamReader(new FileStream(FileName, FileMode.Open), GlobalConstansts.BASE_ENCODING))
                 {
                     var csv = new CsvReader(writer);
+
                     csv.Configuration.Delimiter = GlobalConstansts.DEFAULT_DB_DELIMITER;
                     csv.Configuration.Encoding = GlobalConstansts.BASE_ENCODING;
+                    //csv.Configuration.HasExcelSeparator = true;
                     res = csv.GetRecords<cPlayer>().ToList();
                 }
                 return res;
@@ -152,21 +156,27 @@ namespace WpfTournament
         }
 
         //сохраняет список игроков по имени игры
-        public bool SaveListOfPlayersByGameName_CSV(string GameName, List<cPlayer> PlayersList)
+
+        public bool SaveListOfPlayersByGameName_CSV(string GameName, List<cPlayer> PlayersList, FileMode SaveMode = FileMode.Create)
         {
-            return SaveListOfPlayersInFile_CSV(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GameName + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, PlayersList);
+            return SaveListOfPlayersInFile_CSV(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GameName + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, PlayersList, SaveMode);
         }
-        public bool SaveListOfPlayersInFile_CSV(string FileName, List<cPlayer> PlayersList)
+        public bool SaveListOfPlayersInFile_CSV(string FileName, List<cPlayer> PlayersList, FileMode SaveMode = FileMode.Create)
         {
+            List<cPlayer> TempList;
+            if (SaveMode == FileMode.Create)
+                TempList = new List<cPlayer>();
+            else
+                TempList = GetListOfPlayersFromFile_CSV(FileName);
+            TempList.AddRange(PlayersList);
             try
             {
-                //using (TextWriter writer = new StreamWriter(new FileStream(FileName,FileMode.OpenOrCreate), GlobalConstansts.BASE_ENCODING))
-                using (TextWriter writer = new StreamWriter(new FileStream(FileName, FileMode.OpenOrCreate), GlobalConstansts.BASE_ENCODING))
+                using (TextWriter writer = new StreamWriter(new FileStream(FileName, FileMode.Create), GlobalConstansts.BASE_ENCODING))
                 {
                     var csv = new CsvWriter(writer);
                     csv.Configuration.Delimiter = GlobalConstansts.DEFAULT_DB_DELIMITER;
                     csv.Configuration.Encoding = GlobalConstansts.BASE_ENCODING;
-                    csv.WriteRecords(PlayersList);
+                    csv.WriteRecords(TempList);
                 }
                 return true;
             }
@@ -176,8 +186,34 @@ namespace WpfTournament
             }
         }
 
+        public bool AddRecordToFile_CSV(string FileName, cPlayer AddedPlayer)
+        {
+            List<cPlayer> TempList;
+            TempList = GetListOfPlayersFromFile_CSV(FileName);
+            TempList.Add(AddedPlayer);
+            try
+            {
+                using (TextWriter writer = new StreamWriter(new FileStream(FileName, FileMode.Create), GlobalConstansts.BASE_ENCODING))
+                {
+                    var csv = new CsvWriter(writer);
+                    csv.Configuration.Delimiter = GlobalConstansts.DEFAULT_DB_DELIMITER;
+                    csv.Configuration.Encoding = GlobalConstansts.BASE_ENCODING;
+                    csv.WriteRecords(TempList);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool AddRecordToFileByGameName(string GameName, cPlayer AddedPlayer)
+        {
+            return AddRecordToFile_CSV(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GameName + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, AddedPlayer);
+        }
+
         //функция для заполнения основного объекта по текущей информации
-        public void FillGameObjByGameShowInfoObj(cGame CurrGame, cGameShowInfo GameShowInfo)
+        public void FillGameObjByGameShowInfoObj(ref cGame CurrGame, cGameShowInfo GameShowInfo)
         {
             CurrGame.Name = GameShowInfo.ShowingName;
 
@@ -193,6 +229,43 @@ namespace WpfTournament
             };
         }
 
+        public void FillMinLocalIDFieldInGame(ref cGame Game)
+        {
+            try
+            {
+                Game.MinID = long.Parse(File.ReadAllText(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + Game.Name + '/' + GlobalConstansts.MIN_ID_FILE_NAME));
+            }
+            catch
+            {
+                Game.MinID = -1;
+            }
+        }
+
+        public void SaveNewMinLocalIDByGame(ref cGame Game)
+        {
+            File.WriteAllText(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + Game.Name + '/' + GlobalConstansts.MIN_ID_FILE_NAME, Game.MinID.ToString());
+        }
+
+        public void SynchronizeGameListWithLocalDB(ref cGame Game)
+        {
+            SynchronizeGameListWithFile(ref Game, GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + Game.Name + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, FileMode.Append);
+        }
+        public void SynchronizeGameListWithFile(ref cGame Game, string FileName, FileMode SaveMode = FileMode.Create)
+        {
+            var NewRecordsList = new List<cPlayer>();
+            string s;
+
+            for (int j = 0; j < Game.ListOfPlayers.Count; j++)
+                if (Game.ListOfPlayers[j].id == -1)
+                {
+                    Game.ListOfPlayers[j].id = Game.GetNextLocalID();
+                    NewRecordsList.Add(Game.ListOfPlayers[j]);
+                }
+            if (NewRecordsList.Count != 0)
+            {
+                SaveListOfPlayersInFile_CSV(FileName, NewRecordsList, SaveMode);
+            }
+        }
 
     }
 
