@@ -25,6 +25,7 @@ namespace WpfTournament
         public cwMainWindow()
         {
             InitializeComponent();
+            GlobalVars.ApplicationID = GlobalVars.MainInfoLoader.GetAppID();
             GlobalForms.wPlayerInfoEditor = new cwPlayerInfoEditor();
             GlobalForms.wPlayerInfoEditor.Close();
 

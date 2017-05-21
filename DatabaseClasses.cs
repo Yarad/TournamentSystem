@@ -6,41 +6,42 @@ using System.IO;
 using Newtonsoft.Json;
 using CsvHelper;
 using System.Reflection;
+using System.Net;
 
 namespace WpfTournament
 {
     public class cPlayer
     {
         public long id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public int Age { get; set; }
-        public string Rating { get; set; }
+        public string name { get; set; }
+        public string surname { get; set; }
+        public int age { get; set; }
+        public string rating { get; set; }
         //public int AmountOfTournamentGames { get; set; }
         //public string URL { get; set; }
-        public string OtherInfo { get; set; }
+        public string other_info { get; set; }
         public List<string> GamesIDs = new List<string>();
 
         public cPlayer() { }
-        public cPlayer(long ID, string Name, string Surname, int Age, string URL, string Rating = "0", int AmountOfTournaments = 0)
+        public cPlayer(long ID, string Name, string surname, int Age, string URL, string Rating = "0", int AmountOfTournaments = 0)
         {
             this.id = ID;
-            this.Name = Name;
-            this.Surname = Surname;
-            this.Age = Age;
+            this.name = Name;
+            this.surname = surname;
+            this.age = Age;
             //this.URL = URL;
-            this.Rating = Rating;
+            this.rating = Rating;
             //this.AmountOfTournamentGames = AmountOfTournaments;
         }
 
-        public cPlayer(string Name, string Surname, int Age, string Rating, string OtherInfo)
+        public cPlayer(string Name, string surname, int Age, string Rating, string OtherInfo)
         {
             this.id = -1;
-            this.Name = Name;
-            this.Surname = Surname;
-            this.Age = Age;
-            this.Rating = Rating;
-            this.OtherInfo = OtherInfo;
+            this.name = Name;
+            this.surname = surname;
+            this.age = Age;
+            this.rating = Rating;
+            this.other_info = OtherInfo;
         }
         public cPlayer Clone()
         {
@@ -48,18 +49,23 @@ namespace WpfTournament
         }
         /*public override string ToString()
         {
-            return this.Surname + this.Rating.ToString();
+            return this.surname + this.Rating.ToString();
         }*/
     }
 
     public delegate long DelegateWithLongReturn();
-    class cGamesInfoLoader
+    public class cMainLoader
     {
         public List<cGameShowInfo> ExistedGames;
 
-        public cGamesInfoLoader()
+        public cMainLoader()
         {
             ExistedGames = new List<cGameShowInfo>();
+        }
+
+        public string GetAppID()
+        {
+            return "Mian";
         }
 
         //выясняет, какие на диске есть игры
@@ -267,6 +273,61 @@ namespace WpfTournament
             }
         }
 
+        public void SynchronizeGameDatabase(string GameName)
+        {
+            var PlayersInDB_str = File.ReadAllText(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GameName + '/' + GlobalConstansts.PLAYERS_LIST_FILE_NAME, GlobalConstansts.BASE_ENCODING);
+            byte[] ReqData = Encoding.UTF8.GetBytes("AppIndex=" + GlobalVars.ApplicationID + "&GameName=" + GameName + "&SendedDB=" + PlayersInDB_str);
+
+            var HTTPWebReqObj = (HttpWebRequest)WebRequest.Create(GlobalConstansts.DB_UPDATE_ADDRESS);
+            HTTPWebReqObj.Method = "POST";
+            HTTPWebReqObj.ContentLength = ReqData.Count();
+            HTTPWebReqObj.ContentType = "application/x-www-form-urlencoded";
+
+            Stream SendStream = HTTPWebReqObj.GetRequestStream();
+            SendStream.Write(ReqData, 0, ReqData.Count());
+            SendStream.Close();
+
+
+            /*var HTTPWebRespObj = (HttpWebResponse)HTTPWebReqObj.GetResponse();
+            if (HTTPWebRespObj.ContentLength > 0)
+            {
+                byte[] AnswerData = new byte[HTTPWebRespObj.ContentLength];
+                Stream AnswerStream = HTTPWebRespObj.GetResponseStream();
+                string AnswerString;
+                AnswerStream.Read(AnswerData, 0, (int)HTTPWebRespObj.ContentLength);
+                AnswerString = Encoding.UTF8.GetString(AnswerData);
+
+                File.WriteAllText("temp.html", AnswerString, GlobalConstansts.BASE_ENCODING);
+            }*/
+        }
+        public List<cPlayer> GetAllRecordsFromInternet(string GameName)
+        {
+
+            byte[] ReqData = Encoding.UTF8.GetBytes("GameName=" + GameName);
+
+            var HTTPWebReqObj = (HttpWebRequest)WebRequest.Create(GlobalConstansts.DB_GET_ALL_RECORDS);
+            HTTPWebReqObj.Method = "POST";
+            HTTPWebReqObj.ContentLength = ReqData.Count();
+            HTTPWebReqObj.ContentType = "application/x-www-form-urlencoded";
+
+            Stream SendStream = HTTPWebReqObj.GetRequestStream();
+            SendStream.Write(ReqData, 0, ReqData.Count());
+            SendStream.Close();
+            
+            var HTTPWebRespObj = (HttpWebResponse)HTTPWebReqObj.GetResponse();
+            if (HTTPWebRespObj.ContentLength > 0)
+            {
+                byte[] AnswerData = new byte[HTTPWebRespObj.ContentLength];
+                Stream AnswerStream = HTTPWebRespObj.GetResponseStream();
+                string AnswerString;
+                AnswerStream.Read(AnswerData, 0, (int)HTTPWebRespObj.ContentLength);
+                AnswerString = Encoding.UTF8.GetString(AnswerData);
+
+                File.WriteAllText(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GameName + '/' + GlobalConstansts.PLAYERS_LIST_FROM_NET_FILE_NAME,AnswerString,GlobalConstansts.BASE_ENCODING);
+                return GetListOfPlayersFromFile_CSV(GlobalConstansts.FOLDER_WITH_GAMES_NAME + '/' + GameName + '/' + GlobalConstansts.PLAYERS_LIST_FROM_NET_FILE_NAME);
+            }
+            return new List<cPlayer>();
+        }
     }
 
 }

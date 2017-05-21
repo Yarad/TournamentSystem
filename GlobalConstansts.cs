@@ -8,6 +8,13 @@ using System.Drawing;
 
 namespace WpfTournament
 {
+    
+    public static class GlobalVars
+    {
+        public static string ApplicationID;
+        public static cMainLoader MainInfoLoader = new cMainLoader();
+    }
+
 
     static class GlobalConstansts
     {
@@ -17,12 +24,16 @@ namespace WpfTournament
         public static string GAME_MAIN_PAGE_NAME = "index.html";
         public static string PAGE_DEFAULT_NAME = "default.html";
         public static string PLAYERS_LIST_FILE_NAME = "players.csv";
+        public static string PLAYERS_LIST_FROM_NET_FILE_NAME = "players_net.csv";
         public static string MIN_ID_FILE_NAME = "MinID.txt";
         public static string DLL_MAIN_CLASS_NAME = "GameFunctions";
         public static string DLL_FILE_OF_GAME = "GameFunctions.dll";
+        public static string APP_ID_FILE_NAME = "AppId.txt";
         public static string DLL_RATING_COMPARE_FUNC = "RatingCompareFunction";
         public static string SAVED_FILES_FILTER = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
         public static string DEFAULT_DB_DELIMITER = ";";
+        public static string DB_UPDATE_ADDRESS = "http://localhost/WpfTournament_server/UpdateGameDatabase.php";
+        public static string DB_GET_ALL_RECORDS = "http://localhost/WpfTournament_server/LoadAllRecordsFromNet.php";
         public static Encoding BASE_ENCODING = Encoding.GetEncoding(1251);
 
         public static int LST_FORM = 1;
@@ -40,7 +51,7 @@ namespace WpfTournament
 
     static class GlobalFunctions
     {
-       
+
         public static int IsFirstGreater(int a, int b)
         {
             if (a > b)

@@ -20,14 +20,12 @@ namespace WpfTournament
     /// </summary>
     public partial class cwNewTournament : Window
     {
-        private cGamesInfoLoader GamesInfoLoader;
         public cGame ChoosedGame;
         private ListOfPlayers FinalPlayersList; //это и есть контрол со списком
 
         public cwNewTournament()
         {
             InitializeComponent();
-            GamesInfoLoader = new cGamesInfoLoader();
 
             FillGamesPreInfo();
             ChoosedGame = new cGame();
@@ -45,8 +43,8 @@ namespace WpfTournament
 
         private void ComboBoxGamesList_Selected_1(object sender, RoutedEventArgs e)
         {
-            if(ChoosedGame.Name!=null)
-                GamesInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
+            if (ChoosedGame.Name != null)
+                GlobalVars.MainInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
             UpdateInfoInWebBrowserByComboBox((sender as ComboBox));
             //заполнение полей только по нажатию на "выбрать игроков"
             ComboBoxGamesList.IsEditable = false;
@@ -55,7 +53,7 @@ namespace WpfTournament
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (ChoosedGame != null)
-                GamesInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
+                GlobalVars.MainInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
             GlobalFunctions.ShowWindowAtLoc(/*cwMainWindow.wMainWindow*/App.Current.MainWindow, this.Left, this.Top, this.Width, this.Height, this.WindowState);
             this.Visibility = Visibility.Hidden;
 
@@ -68,13 +66,23 @@ namespace WpfTournament
         {
             TabItemPlayers2.Visibility = Visibility.Visible;
             TabItemPlayers2.IsSelected = true;
-            GamesInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
-            GamesInfoLoader.FillGameObjByGameShowInfoObj(ref ChoosedGame, (cGameShowInfo)ComboBoxGamesList.SelectedValue);
-            GamesInfoLoader.FillMinLocalIDFieldInGame(ref ChoosedGame);
+            GlobalVars.MainInfoLoader.SaveNewMinLocalIDByGame(ref ChoosedGame);
+            GlobalVars.MainInfoLoader.FillGameObjByGameShowInfoObj(ref ChoosedGame, (cGameShowInfo)ComboBoxGamesList.SelectedValue);
+            GlobalVars.MainInfoLoader.FillMinLocalIDFieldInGame(ref ChoosedGame);
         }
         private void btnAddPlayersFromDB_Click(object sender, RoutedEventArgs e)
         {
-            //не написано
+            var TempPlayersList = GlobalVars.MainInfoLoader.GetListOfPlayersByGameName_CSV(ChoosedGame.Name);
+            if (TempPlayersList.Count != 0)
+            {
+                GlobalForms.wChoosingPlayersFromList.SetComparerAndPlayers(ref ChoosedGame, ref TempPlayersList);
+                GlobalForms.wChoosingPlayersFromList.Owner = this;
+                GlobalFunctions.ShowWindowAtLoc(GlobalForms.wChoosingPlayersFromList, this.Left + (this.Width - GlobalForms.wPlayerInfoEditor.Width) / 2, this.Top + (this.Height - GlobalForms.wPlayerInfoEditor.Height) / 2, GlobalForms.wPlayerInfoEditor.Width, GlobalForms.wPlayerInfoEditor.Height);
+                GlobalForms.wChoosingPlayersFromList.eListIsFormed += this.ListIsFormedHandler;
+                this.IsEnabled = false;
+            }
+            else
+                MessageBox.Show("Игроки не найдены");
         }
         private void btnAddPlayersFromLocalDB_Click(object sender, RoutedEventArgs e)
         {
@@ -91,7 +99,7 @@ namespace WpfTournament
 
             for (int i = 0; i < FileNames.Count(); i++)
             {
-                var LoadedListOfPlayers = GamesInfoLoader.GetListOfPlayersFromFile_CSV(FileNames[i]);
+                var LoadedListOfPlayers = GlobalVars.MainInfoLoader.GetListOfPlayersFromFile_CSV(FileNames[i]);
                 RequiredRewriting = false;
 
                 for (int j = 0; j < LoadedListOfPlayers.Count; j++)
@@ -104,11 +112,11 @@ namespace WpfTournament
                 TempPlayersList.AddRange(LoadedListOfPlayers);
 
                 if (RequiredRewriting)
-                    GamesInfoLoader.SaveListOfPlayersInFile_CSV(FileNames[i], LoadedListOfPlayers);
+                    GlobalVars.MainInfoLoader.SaveListOfPlayersInFile_CSV(FileNames[i], LoadedListOfPlayers);
             }
 
             if (TempPlayersList.Count == 0)
-                MessageBox.Show("В этих файлах нет игроков");
+                MessageBox.Show("Игроки не найдены");
             else
             {
                 GlobalForms.wChoosingPlayersFromList.SetComparerAndPlayers(ref ChoosedGame, ref TempPlayersList);
@@ -119,7 +127,7 @@ namespace WpfTournament
             }
 
             if (NewRecordsList.Count != 0)
-                GamesInfoLoader.SaveListOfPlayersByGameName_CSV(ChoosedGame.Name, NewRecordsList, FileMode.Append);
+                GlobalVars.MainInfoLoader.SaveListOfPlayersByGameName_CSV(ChoosedGame.Name, NewRecordsList, FileMode.Append);
         }
         private void btnAddPlayersFromInput_Click(object sender, RoutedEventArgs e)
         {
@@ -127,7 +135,7 @@ namespace WpfTournament
             GlobalFunctions.ShowWindowAtLoc(GlobalForms.wPlayerInfoEditor, this.Left + (this.Width - GlobalForms.wPlayerInfoEditor.Width) / 2, this.Top + (this.Height - GlobalForms.wPlayerInfoEditor.Height) / 2, GlobalForms.wPlayerInfoEditor.Width, GlobalForms.wPlayerInfoEditor.Height);
             GlobalForms.wPlayerInfoEditor.PlayerInfoWasFormed += this.PlayerWasFormedHandler;
             this.IsEnabled = false;
-            
+
         }
         private void btnSaveCurrListInFile_Click(object sender, RoutedEventArgs e)
         {
@@ -142,8 +150,8 @@ namespace WpfTournament
 
             if ((FileName != null) && (FileName != ""))
             {
-                GamesInfoLoader.SynchronizeGameListWithLocalDB(ref ChoosedGame);
-                Result = GamesInfoLoader.SaveListOfPlayersInFile_CSV(FileName, ChoosedGame.ListOfPlayers);
+                GlobalVars.MainInfoLoader.SynchronizeGameListWithLocalDB(ref ChoosedGame);
+                Result = GlobalVars.MainInfoLoader.SaveListOfPlayersInFile_CSV(FileName, ChoosedGame.ListOfPlayers);
             }
             else
                 Result = false;
@@ -161,7 +169,7 @@ namespace WpfTournament
             {
                 FormedPlayer.id = ChoosedGame.GetNextLocalID();
                 this.ChoosedGame.AddPlayer(FormedPlayer);
-                GamesInfoLoader.AddRecordToFileByGameName(ChoosedGame.Name, FormedPlayer);
+                GlobalVars.MainInfoLoader.AddRecordToFileByGameName(ChoosedGame.Name, FormedPlayer);
             }
             GlobalForms.wPlayerInfoEditor.PlayerInfoWasFormed -= this.PlayerWasFormedHandler;
             this.IsEnabled = true;
@@ -186,10 +194,10 @@ namespace WpfTournament
         private void FillGamesPreInfo()
         {
             ResetAllControls();
-            GamesInfoLoader.UpdateGamesInfo_local();
+            GlobalVars.MainInfoLoader.UpdateGamesInfo_local();
 
-            for (int i = 0; i < GamesInfoLoader.ExistedGames.Count; i++)
-                ComboBoxGamesList.Items.Add(GamesInfoLoader.ExistedGames[i]);
+            for (int i = 0; i < GlobalVars.MainInfoLoader.ExistedGames.Count; i++)
+                ComboBoxGamesList.Items.Add(GlobalVars.MainInfoLoader.ExistedGames[i]);
 
             //ComboBoxGamesList_Selected_1(ComboBoxGamesList, new RoutedEventArgs());
             //не помню, зачем это было нужно
@@ -232,7 +240,23 @@ namespace WpfTournament
 
         private void btnStartTournament_Click_1(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void btnSynchronizeDB_Click_1(object sender, RoutedEventArgs e)
+        {
+            GlobalVars.MainInfoLoader.SynchronizeGameDatabase(ChoosedGame.Name);
+        }
+
+        private void btnAddPlayersFromNetDB_Click_1(object sender, RoutedEventArgs e)
+        {
+            var ListOfPlayers = GlobalVars.MainInfoLoader.GetAllRecordsFromInternet(ChoosedGame.Name);
             
+            GlobalForms.wChoosingPlayersFromList.SetComparerAndPlayers(ref ChoosedGame, ref ListOfPlayers);
+            GlobalForms.wChoosingPlayersFromList.Owner = this;
+            GlobalFunctions.ShowWindowAtLoc(GlobalForms.wChoosingPlayersFromList, this.Left + (this.Width - GlobalForms.wPlayerInfoEditor.Width) / 2, this.Top + (this.Height - GlobalForms.wPlayerInfoEditor.Height) / 2, GlobalForms.wPlayerInfoEditor.Width, GlobalForms.wPlayerInfoEditor.Height);
+            GlobalForms.wChoosingPlayersFromList.eListIsFormed += this.ListIsFormedHandler;
+            this.IsEnabled = false;
         }
 
     }

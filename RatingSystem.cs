@@ -44,20 +44,20 @@ namespace WpfTournament
         {
             if (Direction == GlobalConstansts.DirectionUp)
                 ListOfPlayers.Sort(
-                    delegate(cPlayer p1, cPlayer p2) { return String.Compare(p1.Surname, p2.Surname); }
+                    delegate(cPlayer p1, cPlayer p2) { return String.Compare(p1.surname, p2.surname); }
                 );
             else
                 ListOfPlayers.Sort(
-                delegate(cPlayer p1, cPlayer p2) { return String.Compare(p2.Surname, p1.Surname); }
+                delegate(cPlayer p1, cPlayer p2) { return String.Compare(p2.surname, p1.surname); }
             );
         }
         public void SortPlayersByAge(int Direction)
         {
             ListOfPlayers.Sort(delegate(cPlayer p1, cPlayer p2)
             {
-                if (p1.Age * Direction > p2.Age * Direction)
+                if (p1.age * Direction > p2.age * Direction)
                     return 1;
-                else if (p1.Age * Direction < p2.Age * Direction)
+                else if (p1.age * Direction < p2.age * Direction)
                     return -1;
                 else
                     return 0;
@@ -75,9 +75,9 @@ namespace WpfTournament
             ListOfPlayers.Sort(delegate(cPlayer p1, cPlayer p2)
             {
                 if (Direction == ListSortDirection.Ascending)
-                    return this.RatingCompareFunction(p1.Rating, p2.Rating);
+                    return this.RatingCompareFunction(p1.rating, p2.rating);
                 else
-                    return this.RatingCompareFunction(p2.Rating, p1.Rating);
+                    return this.RatingCompareFunction(p2.rating, p1.rating);
             });
         }
 
@@ -137,9 +137,9 @@ namespace WpfTournament
         public int Compare(object x, object y)
         {
             if (SortDirection == ListSortDirection.Ascending)
-                return RatingCompareFunction(((cPlayer)x).Rating, ((cPlayer)y).Rating);
+                return RatingCompareFunction(((cPlayer)x).rating, ((cPlayer)y).rating);
             else
-                return RatingCompareFunction(((cPlayer)y).Rating, ((cPlayer)x).Rating);
+                return RatingCompareFunction(((cPlayer)y).rating, ((cPlayer)x).rating);
         }
     }
 

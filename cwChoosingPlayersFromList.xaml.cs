@@ -24,7 +24,6 @@ namespace WpfTournament
         private Button ButtonAddChoosedPlayers;
         public event dListIsFormed eListIsFormed;
         
-
         public cwChoosingPlayersFromList()
         {
             InitializeComponent();

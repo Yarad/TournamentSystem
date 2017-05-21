@@ -60,20 +60,33 @@
 
                         <Grid Grid.Row="0" Grid.Column="0" x:Name="temp">
                             <StackPanel>
+                                <Button Name="btnAddPlayersFromNetDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="50" Click="btnAddPlayersFromNetDB_Click_1">
+                                    <Button.Content>
+                                        <TextBlock Text="Добавить игроков из списка в интернете" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </Button.Content>
+                                </Button>
                                 <Button Name="btnAddPlayersFromDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="50" Click="btnAddPlayersFromDB_Click">
                                     <Button.Content>
-                                        <TextBlock Text="Выбрать из базы данных игроков" TextWrapping="Wrap" TextAlignment="Center"/>
+                                        <TextBlock Text="Добавить игроков из общей базы данных" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Name="btnAddPlayersFromLocalDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Click="btnAddPlayersFromLocalDB_Click">
+                                    <Button.Content>
+                                        <TextBlock Text="Добавить игроков из файла" TextWrapping="Wrap" TextAlignment="Center"/>
                                     </Button.Content>
                                 </Button>
                                 <Button Name="btnAddPlayersFromInput" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Click="btnAddPlayersFromInput_Click">
                                     Добавить вручную
                                 </Button>
-                                <Button Name="btnAddPlayersFromLocalDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" Click="btnAddPlayersFromLocalDB_Click">
-                                    Добавить из файла
-                                </Button>
+                                
                                 <Button Name="btnSaveCurrListInFile" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="50" Click="btnSaveCurrListInFile_Click">
                                     <Button.Content>
                                         <TextBlock Text="Сохранить текущий список в файл" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Name="btnSynchronizeDB" Style="{StaticResource NewTournamentButtons}"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Height="50" Click="btnSynchronizeDB_Click_1">
+                                    <Button.Content>
+                                        <TextBlock Text="Обновить базу данных игроков" TextWrapping="Wrap" TextAlignment="Center"/>
                                     </Button.Content>
                                 </Button>
                             </StackPanel>

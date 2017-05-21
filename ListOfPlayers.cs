@@ -29,27 +29,27 @@ namespace WpfTournament
             this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Фамилия",
-                Binding = new Binding("Surname")
+                Binding = new Binding("surname")
             });
             this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Имя",
-                Binding = new Binding("Name")
+                Binding = new Binding("name")
             });
             this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Возраст",
-                Binding = new Binding("Age")
+                Binding = new Binding("age")
             });
             this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Рейтинг",
-                Binding = new Binding("Rating")
+                Binding = new Binding("rating")
             });
             this.Columns.Add(new DataGridTextColumn()
             {
                 Header = "Доп. инфо",
-                Binding = new Binding("OtherInfo")
+                Binding = new Binding("other_info")
             });
 
             this.HorizontalAlignment = HorizontalAlignment.Stretch;
